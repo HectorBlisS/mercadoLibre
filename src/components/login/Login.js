@@ -1,15 +1,47 @@
 import React, {Component} from 'react';
 import firebase from '../../api/firebase';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 
 
 
 const FormItem = Form.Item;
 
 class Login extends Component {
-    render(){
+    
+    state = {
+        loading:false
+    }
+    
+    componentWillMount(){
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user){
+            this.props.history.push('/');
+        }
+    }
+    
+    fireLogin = () => {
+      this.setState({loading:true});  
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+        .then(result => {
+            localStorage.setItem("user", JSON.stringify(result.user));
+            console.log(result.user);
+            this.setState({loading:false});
+            message.success("Bienvenido "+result.user.displayName);
+        console.log(localStorage.getItem("user"));
+            this.props.history.push('/perfil');
+    })
+        .catch(e=>{
+        this.setState({loading:false});
+         message.error('No se puedo iniciar sesión'+e);
+        
+    });
 
+    };
+    
+    render(){
+        const {loading} = this.state;
         return(
               <Card style={{
                     margin:'0 auto', 
@@ -30,13 +62,26 @@ class Login extends Component {
         </FormItem>
         <FormItem>
 
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>Recuerdame</Checkbox>
 
-          <a className="login-form-forgot" href="">Forgot password</a>
+          <a className="login-form-forgot" href="">¿Olvidaste tu password?</a>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            Inicia
           </Button>
-          Or <a href="">register now!</a>
+          O <a href="">¡Registrate ahora!</a>
+          <div style={{textAlign:'center'}}>
+              Inicia con redes sociales
+                 <br/>
+             <Button 
+             onClick={this.fireLogin}
+             type="danger"
+             loading={loading}
+             >Google</Button>
+            <Button type="primary">Facebook</Button>
+            <Button type="dashed">Twitter</Button>
+
+
+          </div>
         </FormItem>
       </Form>
   </Card>
