@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Carousel } from 'antd';
 import './home.css';
+import Ofertas from './Ofertas';
 import logo from '../../logo.svg';
 
 const c1 = "https://http2.mlstatic.com/resources/deals/exhibitors_resources/mlm-home-desktop-slider-picture-e50b5a65-79c3-42af-9ab0-14b3618a40e1.jpg";
@@ -14,13 +15,16 @@ const c4 = "https://http2.mlstatic.com/resources/deals/exhibitors_resources/mlm-
 class HomePage extends Component{
     render(){
         return(
-        <Carousel autoplay>
-            <div><img src={c1} alt="portada"/></div>
-            <div><img src={c2} alt="portada"/></div>
-            <div><img src={c3} alt="portada"/></div>
-            <div><img src={c4} alt="portada"/></div>
-            <div><h3>5</h3></div>
-          </Carousel>
+            <div>
+                <Carousel autoplay>
+                    <div><img src={c1} alt="portada"/></div>
+                    <div><img src={c2} alt="portada"/></div>
+                    <div><img src={c3} alt="portada"/></div>
+                    <div><img src={c4} alt="portada"/></div>
+                    <div><h3>5</h3></div>
+                </Carousel>
+                <Ofertas />
+            </div>
         );
     }
 }
