@@ -39,7 +39,7 @@ class NavBar extends Component{
  cerrarSesion = () => {
     firebase.auth().signOut();
     localStorage.removeItem("user");
-     this.setState({user:null});
+    this.setState({user:null});
 //    this.props.history.push('/');
 };
     
