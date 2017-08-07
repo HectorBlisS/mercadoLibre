@@ -19,11 +19,11 @@ const logo = "https://vendelofacil.com.mx/static/media/log_50.png"
 
 
 class NavBar extends Component{
-    
+
     state = {
         user:null
     }
-    
+
     componentWillMount(){
         const user = JSON.parse(localStorage.getItem('user'));
         if(user){
@@ -32,7 +32,7 @@ class NavBar extends Component{
         firebase.auth().onAuthStateChanged(user=>{
            if(user){
                this.setState({user});
-           } 
+           }
         });
     }
 
@@ -42,7 +42,7 @@ class NavBar extends Component{
      this.setState({user:null});
 //    this.props.history.push('/');
 };
-    
+
     render(){
         const menu = (
   <Menu>
@@ -61,33 +61,43 @@ class NavBar extends Component{
         return(
 <header className="nav-container">
    <div className="nav-group">
-      <span className="nav-logo">
+      {/*<span className="nav-logo">
          <Link to="/">
-             <img src={logo} alt="logo"/> 
+             <img src={logo} alt="logo"/>
          </Link>
-          
-      </span>
+
+      </span>*/}
       <span className="nav-title">
-          Véndelo Fácil
+        <Link to="/"
+          style={{color:'white', textDecoration:'none'}}
+          className="nav-item">
+              Vendelo Fácil
+        </Link>
       </span>
       <div className="nav-right">
 
-          {!user && 
-             
-               <Link 
+          {!user &&
+
+               <Link
                style={{color:'white'}}
                className="nav-item" to="/login">
                Inicia Sesión
                   </Link>
-             
+
 
           }
-           <span className="nav-item-red">
-               ¡Publica Gratis!
-           </span>
-         
-           
-           {user && 
+
+             <Link to="/nuevo"
+                style={{color:'white', textDecoration:'none'}}
+                className="nav-item-red">
+
+                   ¡Publica Gratis!
+
+             </Link>
+
+
+
+           {user &&
               <div
                  className="nav-item"
                   >
@@ -95,16 +105,16 @@ class NavBar extends Component{
      <Avatar src={user.photoURL}/>
     </Dropdown>
               </div>
-       
-           }
-           
 
-           
+           }
+
+
+
 
       </div>
 
    </div>
-    
+
 </header>
         );
     }
