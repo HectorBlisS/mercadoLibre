@@ -1,0 +1,21 @@
+.steps-container{
+  height:'70vh';
+  width:'100%';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
