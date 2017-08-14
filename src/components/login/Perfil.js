@@ -18,21 +18,39 @@ class Perfil extends Component{
     }
     
     componentWillMount(){
-        let user = localStorage.getItem("user")
-        user = JSON.parse(user);
+        /*let user = localStorage.getItem("user")
+        user = JSON.parse(user);*/
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                this.setState({user});
+                console.log(user);
+                firebase.database().ref('users/'+user.uid)
+                 .on('value', r=>{
+                     console.log(r.val());
+                      this.setState({user:r.val()});
+                     console.log(r.val());
+                     
+                 })
+            }else{
+                this.props.history.push('/login');
+            }
+        })
+
+    }
         
-        if(user){
-           this.setState({user}); firebase.database().ref('users/'+user.uid)
+        /*if(user){
+           this.setState({user});
+           console.log(user);
+           firebase.database().ref('users/'+user.uid)
             .on('value', r=>{
+                console.log(r.val());
                  this.setState({user:r.val().user});
                 console.log(r.val());
                 
-            });
+            });*/
            
-        }else{
-            this.props.history.push('/login');
-        }
-    }
+    
 
 
   onChangeUserName = (e) => {
@@ -48,7 +66,7 @@ class Perfil extends Component{
       this.setState({loading:true});
       const user = this.state.user;
       firebase.database().ref('users/'+user.uid)
-      .set({user})
+      .set(user)
       .then(r=>{
           this.setState({loading:false});
           message.success("Perfil guardado");
