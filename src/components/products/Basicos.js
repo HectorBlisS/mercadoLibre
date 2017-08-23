@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Cascader, Input, Select, Upload, Icon, Modal } from 'antd';
+import firebase from '../../api/firebase';
 
 const Option = Select.Option;
 
@@ -155,7 +156,6 @@ class Basicos extends Component{
       previewVisible: false,
       previewImage: '',
       fileList: [],
-      fileList2:[],
     }
   }
   componentWillMount(){
@@ -199,7 +199,7 @@ class Basicos extends Component{
     let anuncio = this.state.anuncio
     anuncio['fotos'] = this.state.fileList
     this.setState({ fileList,anuncio })
-    console.log(this.state.anuncio)
+    console.log("handleChange", fileList)
     this.props.pasala(this.state.anuncio)
   }
   render(){
@@ -256,8 +256,11 @@ class Basicos extends Component{
           fileList={this.state.fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          multiple={true}
+          //customRequest={ this.props.handleImageUpload }
+          customRequest={ this.handleImageUpload }
         >
-          {this.state.fileList.length >= 5 ? null : uploadButton}
+          {this.state.fileList.length >= 10 ? null : uploadButton}
         </Upload>
 
         <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
