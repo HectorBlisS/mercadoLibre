@@ -7,11 +7,12 @@ class Resumen extends Component{
   constructor(){
     super();
     this.state={
-      anuncio:{}
+      anuncio:{fotos:[]}
     }
   }
   componentWillMount(){
     console.log('resumen',this.props.anuncio)
+      this.setState({anuncio:this.props.anuncio});
   }
   render(){
 
@@ -22,7 +23,7 @@ class Resumen extends Component{
           <Row gutter={16} style={{width:'100%'}}>
             <Col span={16}>
               <Carousel autoplay vertical style={{width:'100%'}}>
-              {this.props.anuncio.fotos.map((foto, index)=>{
+              {this.state.anuncio.fotos.map((foto, index)=>{
                 return(
                   <img key={index} src={foto.thumbUrl} style={{width:'100%', height:400}}/>
                 )
