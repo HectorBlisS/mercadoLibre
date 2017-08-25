@@ -4,6 +4,8 @@ import { Input, Card, Button } from 'antd';
 import { Row, Col, message } from 'antd';
 import firebase from '../../api/firebase';
 
+import MisProductos from './MisProductos';
+
 
 const TabPane = Tabs.TabPane;
 
@@ -152,9 +154,15 @@ class Perfil extends Component{
             </TabPane>
             <TabPane tab={<span>
              <Icon type="android" />
-             Publicaciones
+
+                              Publicaciones
+
+
              </span>} key="2">
-              Publicaciones
+
+
+                             <MisProductos user={this.state.user}/>
+
             </TabPane>
             
             <TabPane tab={<span>

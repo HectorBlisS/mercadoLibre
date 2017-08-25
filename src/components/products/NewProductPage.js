@@ -32,25 +32,56 @@ class NewProductPage extends Component{
        current: 0,
        anuncio:{},
        disabled: true,
-         loading:false
+         loading:false,
+         fotos:[]
      };
    }
-   publicar=()=>{
-        this.setState({loading:true});
+
+    setFotos = (list) => {
+      this.setState({fotos:list});
+    };
+
+   publicar = () => {
+      this.setState({loading:true});
       const anuncio = this.state.anuncio;
-      const fotos = this.state.anuncio.fotos;
+      const fotos = this.state.fotos;
       const user = this.state.user;
-      anuncio.fotos = null;
+      anuncio.fotos = [];
       anuncio["user"] = user.uid;
+      anuncio['date'] = Date.now();
+
+      this.setState({anuncio});
+
 
       firebase.database().ref('users/'+ user.uid + '/productos')
           .push(anuncio)
           .then(r=>{
-              firebase.database().ref('productos/')
-                  .push(anuncio)
-                  .then(r=>r=>message.success('Se ha publicado tu anuncio!'));
+
+              //console.log(r.key);
+              firebase.database().ref('productos/'+r.key)
+                  .set(anuncio);
+
+              this.handleImageUpload(r.key);
+              message.success("Tu auncio de ha publicado");
+              //this.setState({loading:false});
+              this.props.history.push('/perfil');
+
+              this.handleImageUpload(r.key);
+              //message.success("Tu auncio de ha publicado");
+              //this.setState({loading:false});
+              //this.props.history.push('/perfil');
+
+              //console.log(r.key);
+
+
+
           })
-          .catch(e=>message.error('No se pudo publicar', e));
+          .catch(e=>{
+              message.error('No se pudo publicar');
+              console.log(e);
+
+          });
+       //
 
 
 
@@ -77,15 +108,47 @@ class NewProductPage extends Component{
        console.log(this.state.anuncio);
     };
 
-  handleImageUpload = () => {
-    let user = JSON.parse(localStorage.getItem("user"));
+  handleImageUpload = (key) => {
+    const fotos = this.state.fotos;
+    const user = this.state.user;
 
-    this.state.anuncio.fotos.map((foto)=>{
-      console.log("archivo",foto)
-      let storage = firebase.storage().ref("product_images/"+user.uid)
+
+    fotos.map((foto)=>{
+      //console.log("archivo",foto);
+      let storage = firebase.storage().ref("product_images/" + key)
       storage.child(foto.name).put(foto.originFileObj)
-    })
+
+    });
    //storage.child(file.name).put(file));
+      return true;
+
+    const anuncio = this.state.anuncio;
+    let fotosArray = [];
+
+    fotos.map((foto)=>{
+      //console.log("archivo",foto);
+
+      let storage = firebase.storage().ref("product_images/" + key);
+        storage.child(foto.name).put(foto.originFileObj)
+          .then(r=>{
+              console.log(r.downloadURL);
+              fotosArray.push(r.downloadURL);
+              anuncio['fotos'] = fotosArray;
+              firebase.database().ref('productos/'+key)
+                  .set(anuncio);
+              firebase.database().ref('users/'+user.uid+'/productos/'+key)
+                  .set(anuncio);
+              this.setState({fotosArray});
+          });
+
+
+    });
+    message.success("Tu Anuncio se ha publicado con éxito");
+      this.props.history.push('/perfil');
+
+   //storage.child(file.name).put(file));
+
+
  };
 
  disable = () => {
@@ -113,17 +176,17 @@ class NewProductPage extends Component{
   render(){
     const {disabled, loading} = this.state;
     return(
-      <div style={{padding:'3% 5%', textAlign:'center'}}>
+      <div style={{padding:'3% 5%', width:'100%'}}>
           {!loading ? <div>
         <Steps current={this.state.current}>
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
 
-          
+
         <div className="steps-content">
           {this.state.current===0?
 
-              <Basicos updateAnuncio={this.updateAnuncio} enable={this.enable} style={styles.stepContainer}  handleImageUpload={this.handleImageUpload}/>
+              <Basicos setFotos={this.setFotos} updateAnuncio={this.updateAnuncio} enable={this.enable} style={styles.stepContainer}  handleImageUpload={this.handleImageUpload}/>
           :
           this.state.current===1?
               <DetalleVehiculos updateAnuncio={this.updateAnuncio} disable={this.disable} enable={this.enable} style={styles.stepContainer} anuncio={this.state.anuncio}/>:
@@ -150,7 +213,7 @@ class NewProductPage extends Component{
             </Button>
           }
         </div>
-          </div> : <Spin /> }
+          </div> : <div style={{margin:'0 auto'}}><Spin  /></div> }
       </div>
     );
   }

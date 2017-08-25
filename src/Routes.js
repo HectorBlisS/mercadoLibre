@@ -15,7 +15,7 @@ const Routes = props => (
         <Route path="/perfil" component={Perfil}/>
         <Route path="/nuevo" component={NewProductPage}/>
         <Route path="/anuncio/:productId" component={ProductDetail}/>
-        <Route path="/anuncios" component={ProductList}/>
+        <Route path="/anuncios/:estado" component={ProductList}/>
 
 
     </Switch>

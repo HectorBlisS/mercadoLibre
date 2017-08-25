@@ -218,9 +218,10 @@ class Basicos extends Component{
 
   handleChange = ({ fileList }) => {
     let anuncio = this.state.anuncio;
-    anuncio['fotos'] = this.state.fileList
-    this.setState({ fileList,anuncio })
-    console.log("handleChange", fileList)
+    anuncio['fotos'] = this.state.fileList;
+    this.setState({ fileList,anuncio });
+    this.props.setFotos(fileList);
+    //console.log("handleChange", fileList);
     //this.props.pasala(this.state.anuncio)
       //Checamos si activamos el next:
       this.validateEmpty();
