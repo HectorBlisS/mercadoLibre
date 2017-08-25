@@ -36,11 +36,22 @@ class ProductDetail extends Component{
 
           <Col span={16}>
             <h1>{this.state.anuncio.titulo} </h1>
-            
+              <p>{this.state.anuncio.categorias.map(cat=>{
+                  return(
+                    <span>cat / </span>
+                  )
+                })}</p>
+              <div style={{width:'90%'}}>
+              <img style={{width:'90%'}} src={this.state.anuncio.fotos[0]}/>
+            </div>
           </Col>
           <Col span={8}>
             <Card title="Oswaldinho" extra={<Avatar style={{marginTop:'-8px'}}src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />} style={{ width: 300 }}>
-              <p>Hidalgo, México</p>
+              <p>{this.state.anuncio.estado.map(es=>{
+                  return(
+                    <span>es / </span>
+                  )
+                })}</p>
               <h3>Contacta a Oswaldinho</h3>
               <TextArea rows={4} placeholder="Tu mensaje"/>
               <br/><br/>
