@@ -48,8 +48,16 @@ class NewProductPage extends Component{
      this.handleImageUpload()
    }
    next() {
-     const current = this.state.current + 1;
-     this.setState({ current });
+    /*if(this.validateAds(this.state.anuncio,5)){
+      const current = this.state.current + 1;
+      this.setState({ current });
+    }else if(this.validateAds(this.state.anuncio,11)){
+      const current = this.state.current + 1;
+      this.setState({ current });
+    }*/
+    const current = this.state.current + 1;
+    this.setState({ current });
+
    }
    prev() {
      const current = this.state.current - 1;
@@ -60,13 +68,25 @@ class NewProductPage extends Component{
    }
 
   handleImageUpload = () => {
+    let user = JSON.parse(localStorage.getItem("user"));
 
     this.state.anuncio.fotos.map((foto)=>{
-      let user = JSON.parse(localStorage.getItem("user"));
+      console.log("archivo",foto)
       let storage = firebase.storage().ref("product_images/"+user.uid)
-      storage.child(foto.name).put(foto)
+      storage.child(foto.name).put(foto.originFileObj)
     })
    //storage.child(file.name).put(file));
+ }
+
+ validateAds = (anuncio, items) => {
+   console.log("validate")
+    let count = 0;
+    for(let key in anuncio){
+      count+=1
+    };
+    console.log(count);
+    if(count === items) return true;
+    return false;
  }
 
   componentWillMount(){
@@ -104,12 +124,12 @@ class NewProductPage extends Component{
           {
             this.state.current < steps.length - 1
             &&
-              <Button type="primary" onClick={() => this.next()} disabled={false}  >Next</Button>
+              <Button type="primary" onClick={() => this.next()} disabled={ (this.validateAds(this.state.anuncio,5) && this.state.current==0 )|| (this.validateAds(this.state.anuncio,11) && this.state.current==1)? false:true}  >Next</Button>
           }
           {
             this.state.current === steps.length - 1
             &&
-            <Button type="primary" onClick={this.publicar}>Done</Button>
+            <Button type="primary" onClick={this.publicar} disabled={this.validateAds(this.state.anuncio,11)? false:true}>Done</Button>
           }
 
           {
