@@ -1,6 +1,7 @@
 import React from 'react';
 import {select, selectAll} from 'd3';
 import './mapa.css';
+import {Link} from 'react-router-dom';
 
 class Mapa extends React.Component{
 
@@ -67,9 +68,9 @@ class Mapa extends React.Component{
 
 
     displayStates = (state) => (
-        <a href={"/anuncios/"+state.name} key={state.id} className="state-item" >
+        <Link to={"/anuncios/"+state.name} key={state.id} className="state-item" >
             <div className={this.state.over === state.id ? 'activated': ""} >{state.name}</div>
-        </a>   
+        </Link>   
     );
 
 

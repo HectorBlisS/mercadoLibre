@@ -7,6 +7,7 @@ import img5 from '../../assets/images/negocios.jpg';
 import img6 from '../../assets/images/sport.jpg';
 import img7 from '../../assets/images/game.jpg';
 import './categories.css';
+import {Link} from 'react-router-dom';
 
 class Categories extends React.Component{
 
@@ -58,12 +59,14 @@ class Categories extends React.Component{
     }
 
     displayCategoryItem = (category) => (
-        <div className="Card" key={category.id}>
-            <div className="card-image">
-                <img src={category.img} alt={category.slug} />
-                <span className="card-title">{category.name}</span>
+        <Link to="/anuncios/all">
+            <div className="Card" key={category.id}>
+                <div className="card-image">
+                    <img src={category.img} alt={category.slug} />
+                    <span className="card-title">{category.name}</span>
+                </div>
             </div>
-        </div>
+        </Link>
     );
 
     render(){
