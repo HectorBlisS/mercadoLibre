@@ -19,7 +19,7 @@ const styles={
     alignItems: 'center'
 
   }
-}
+};
 
 
 const steps = [{
@@ -46,7 +46,7 @@ class NewProductPage extends Component{
    publicar=()=>{
      message.success('Processing complete!')
      this.handleImageUpload()
-   }
+   };
    next() {
      const current = this.state.current + 1;
      this.setState({ current });
@@ -57,7 +57,7 @@ class NewProductPage extends Component{
    }
    pasala=(a)=>{
      this.setState({anuncio:a})
-   }
+   };
 
   handleImageUpload = () => {
 
@@ -67,7 +67,7 @@ class NewProductPage extends Component{
       storage.child(foto.name).put(foto)
     })
    //storage.child(file.name).put(file));
- }
+ };
 
   componentWillMount(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -90,6 +90,8 @@ class NewProductPage extends Component{
         <Steps current={this.state.current}>
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
+
+          
         <div className="steps-content">
           {this.state.current===0?
 
