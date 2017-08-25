@@ -38,7 +38,7 @@ class ProductDetail extends Component{
             <h1>{this.state.anuncio.titulo} </h1>
               <p>{this.state.anuncio.categorias.map(cat=>{
                   return(
-                    <span>cat / </span>
+                    <span>{cat} / </span>
                   )
                 })}</p>
               <div style={{width:'90%'}}>
@@ -49,7 +49,7 @@ class ProductDetail extends Component{
             <Card title="Oswaldinho" extra={<Avatar style={{marginTop:'-8px'}}src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />} style={{ width: 300 }}>
               <p>{this.state.anuncio.estado.map(es=>{
                   return(
-                    <span>es / </span>
+                    <span>{es} / </span>
                   )
                 })}</p>
               <h3>Contacta a Oswaldinho</h3>
