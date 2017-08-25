@@ -50,9 +50,13 @@ class NewProductPage extends Component{
       anuncio["user"] = user.uid;
       anuncio['date'] = Date.now();
 
+      this.setState({anuncio});
+
+
       firebase.database().ref('users/'+ user.uid + '/productos')
           .push(anuncio)
           .then(r=>{
+
               //console.log(r.key);
               firebase.database().ref('productos/'+r.key)
                   .set(anuncio);
@@ -61,6 +65,15 @@ class NewProductPage extends Component{
               message.success("Tu auncio de ha publicado");
               //this.setState({loading:false});
               this.props.history.push('/perfil');
+
+              this.handleImageUpload(r.key);
+              //message.success("Tu auncio de ha publicado");
+              //this.setState({loading:false});
+              //this.props.history.push('/perfil');
+
+              //console.log(r.key);
+
+
 
           })
           .catch(e=>{
@@ -99,6 +112,7 @@ class NewProductPage extends Component{
     const fotos = this.state.fotos;
     const user = this.state.user;
 
+
     fotos.map((foto)=>{
       //console.log("archivo",foto);
       let storage = firebase.storage().ref("product_images/" + key)
@@ -107,6 +121,34 @@ class NewProductPage extends Component{
     });
    //storage.child(file.name).put(file));
       return true;
+
+    const anuncio = this.state.anuncio;
+    let fotosArray = [];
+
+    fotos.map((foto)=>{
+      //console.log("archivo",foto);
+
+      let storage = firebase.storage().ref("product_images/" + key);
+        storage.child(foto.name).put(foto.originFileObj)
+          .then(r=>{
+              console.log(r.downloadURL);
+              fotosArray.push(r.downloadURL);
+              anuncio['fotos'] = fotosArray;
+              firebase.database().ref('productos/'+key)
+                  .set(anuncio);
+              firebase.database().ref('users/'+user.uid+'/productos/'+key)
+                  .set(anuncio);
+              this.setState({fotosArray});
+          });
+
+
+    });
+    message.success("Tu Anuncio se ha publicado con éxito");
+      this.props.history.push('/perfil');
+
+   //storage.child(file.name).put(file));
+
+
  };
 
  disable = () => {
@@ -140,7 +182,7 @@ class NewProductPage extends Component{
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
 
-          
+
         <div className="steps-content">
           {this.state.current===0?
 
