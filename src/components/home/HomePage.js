@@ -11,6 +11,7 @@ import img4 from '../../assets/images/tiempolibre.jpg';
 import img5 from '../../assets/images/negocios.jpg';
 import img6 from '../../assets/images/sport.jpg';
 import img7 from '../../assets/images/game.jpg';
+import Mapa from '../mapa/Mapa';
 
 const c1 = "https://http2.mlstatic.com/resources/deals/exhibitors_resources/mlm-home-desktop-slider-picture-e50b5a65-79c3-42af-9ab0-14b3618a40e1.jpg";
 
@@ -122,6 +123,10 @@ class HomePage extends Component{
 
                     </div>
 
+                </section>
+
+                <section className="categories-container">
+                    <Mapa/>
                 </section>
 
             </div>
