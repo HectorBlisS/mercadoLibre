@@ -5,7 +5,7 @@ import './newProduct.css';
 
 class Resumen extends Component{
   constructor(){
-    super()
+    super();
     this.state={
       anuncio:{}
     }
@@ -21,10 +21,10 @@ class Resumen extends Component{
 
           <Row gutter={16} style={{width:'100%'}}>
             <Col span={16}>
-              <Carousel style={{width:'100%'}}>
-              {this.props.anuncio.fotos.map(foto=>{
+              <Carousel autoplay vertical style={{width:'100%'}}>
+              {this.props.anuncio.fotos.map((foto, index)=>{
                 return(
-                  <img src={foto.thumbUrl} style={{width:'100%', height:400}}/>
+                  <img key={index} src={foto.thumbUrl} style={{width:'100%', height:400}}/>
                 )
               })}
 

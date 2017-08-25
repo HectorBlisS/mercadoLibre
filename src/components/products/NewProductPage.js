@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import firebase from '../../api/firebase';
-import { Steps, Button, message } from 'antd';
+import { Steps, Button, message, Spin } from 'antd';
 import Basicos from './Basicos';
 import DetalleVehiculos from './DetalleVehiculos';
 import Resumen from './Resumen';
@@ -9,17 +9,7 @@ const Step = Steps.Step;
 
 
 
-const styles={
-  stepContainer:{
-    padding:'1%',
-    height:'70vh',
-    width:'100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
 
-  }
-};
 
 
 const steps = [{
@@ -38,14 +28,33 @@ class NewProductPage extends Component{
   constructor(props) {
      super(props);
      this.state = {
+         user:null,
        current: 0,
        anuncio:{},
-       disabled: true
+       disabled: true,
+         loading:false
      };
    }
    publicar=()=>{
-     message.success('Processing complete!')
-     this.handleImageUpload()
+        this.setState({loading:true});
+      const anuncio = this.state.anuncio;
+      const fotos = this.state.anuncio.fotos;
+      const user = this.state.user;
+      anuncio.fotos = null;
+      anuncio["user"] = user.uid;
+
+      firebase.database().ref('users/'+ user.uid + '/productos')
+          .push(anuncio)
+          .then(r=>{
+              firebase.database().ref('productos/')
+                  .push(anuncio)
+                  .then(r=>r=>message.success('Se ha publicado tu anuncio!'));
+          })
+          .catch(e=>message.error('No se pudo publicar', e));
+
+
+
+     //this.handleImageUpload()
    };
    next() {
     /*if(this.validateAds(this.state.anuncio,5)){
@@ -63,9 +72,10 @@ class NewProductPage extends Component{
      const current = this.state.current - 1;
      this.setState({ current });
    }
-   pasala=(a)=>{
-     this.setState({anuncio:a})
-   };
+    updateAnuncio = (anuncio) => {
+       this.setState({anuncio});
+       console.log(this.state.anuncio);
+    };
 
   handleImageUpload = () => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -78,16 +88,13 @@ class NewProductPage extends Component{
    //storage.child(file.name).put(file));
  };
 
- validateAds = (anuncio, items) => {
-   console.log("validate")
-    let count = 0;
-    for(let key in anuncio){
-      count+=1
+ disable = () => {
+   this.setState({disabled:true});
+ };
+
+ enable = () => {
+        this.setState({disabled:false});
     };
-    console.log(count);
-    if(count === items) return true;
-    return false;
- }
 
   componentWillMount(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -104,9 +111,10 @@ class NewProductPage extends Component{
     });
   }
   render(){
-
+    const {disabled, loading} = this.state;
     return(
-      <div style={{padding:'3% 5%'}}>
+      <div style={{padding:'3% 5%', textAlign:'center'}}>
+          {!loading ? <div>
         <Steps current={this.state.current}>
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
@@ -115,10 +123,10 @@ class NewProductPage extends Component{
         <div className="steps-content">
           {this.state.current===0?
 
-              <Basicos style={styles.stepContainer} pasala={this.pasala} anuncio={this.state.anuncio} handleImageUpload={this.handleImageUpload}/>
+              <Basicos updateAnuncio={this.updateAnuncio} enable={this.enable} style={styles.stepContainer}  handleImageUpload={this.handleImageUpload}/>
           :
           this.state.current===1?
-              <DetalleVehiculos style={styles.stepContainer} pasala={this.pasala} anuncio={this.state.anuncio}/>:
+              <DetalleVehiculos updateAnuncio={this.updateAnuncio} disable={this.disable} enable={this.enable} style={styles.stepContainer} anuncio={this.state.anuncio}/>:
           this.state.current===2?
               <Resumen style={styles.stepContainer} anuncio={this.state.anuncio}/>:''}
         </div>
@@ -126,24 +134,40 @@ class NewProductPage extends Component{
           {
             this.state.current < steps.length - 1
             &&
-              <Button type="primary" onClick={() => this.next()} disabled={ (this.validateAds(this.state.anuncio,5) && this.state.current==0 )|| (this.validateAds(this.state.anuncio,11) && this.state.current==1)? false:true}  >Next</Button>
+              <Button type="primary" onClick={() => this.next()} disabled={disabled}  >Siguiente</Button>
           }
           {
             this.state.current === steps.length - 1
             &&
-            <Button type="primary" onClick={this.publicar} disabled={this.validateAds(this.state.anuncio,11)? false:true}>Done</Button>
+            <Button type="primary" onClick={this.publicar} disabled={disabled}>Publicar</Button>
           }
 
           {
             this.state.current > 0
             &&
             <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-              Previous
+              Anterior
             </Button>
           }
         </div>
+          </div> : <Spin /> }
       </div>
     );
   }
 }
+
+
+const styles={
+    stepContainer:{
+        padding:'1%',
+        height:'70vh',
+        width:'100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom:'20px'
+
+    }
+};
+
 export default NewProductPage;
