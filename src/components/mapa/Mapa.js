@@ -1,6 +1,6 @@
 import React from 'react';
 import {select, selectAll} from 'd3';
-import {Button} from 'antd';
+import './mapa.css';
 
 class Mapa extends React.Component{
 
@@ -25,7 +25,7 @@ class Mapa extends React.Component{
             {"id":"MX-MIC",'name': 'Michoacan'},
             {"id":"MX-MOR",'name': 'Morelos'},
             {"id":"MX-NA",'name':  'Nayarit'},
-            {"id":"MX-NLE",'name': 'Monterrey'},
+            {"id":"MX-NLE",'name': 'Nuevo León'},
             {"id":"MX-OAX",'name': 'Oaxaca'},
             {"id":"MX-PUE",'name': 'Puebla'},
             {"id":"MX-QUE",'name': 'Queretaro'},
@@ -39,32 +39,80 @@ class Mapa extends React.Component{
             {"id":"MX-VER",'name': 'Veracruz'},
             {"id":"MX-YUC",'name': 'Yucatan'},
             {"id":"MX-ZAC",'name': 'Zacatecas'}
-        ]
+        ],
+        over:""
     }
 
 
     componentDidMount(){
+        const m = this;
 
+        const initialcolor = "#ffecb3";
+        const overcolor =  "#ff8f00";
+        const paths = selectAll("path");
+        paths.style("fill", initialcolor);
 
+        paths.on('mouseover', function(){
+        this.over = this.id;
+        m.setState({over:this.id});
+        select(this).style("fill", overcolor);
+        });
+
+        paths.on('mouseout', function(){
+        select(this).style("fill",initialcolor);
+        m.setState({over:""})
+        });
 
     }
 
 
     displayStates = (state) => (
-        <a href={"/"+state.name} key={state.id}>
-            <Button type="primary">
-                {state.name}
-            </Button>
+        <a href={"/anuncios/"+state.name} key={state.id} className="state-item" >
+            <div className={this.state.over === state.id ? 'activated': ""} >{state.name}</div>
         </a>   
     );
 
+
+    fillState = () => {
+        const btns = selectAll(".state-item");
+        const overcolor =  "#ff8f00";
+        const m = this;
+
+        btns.on('mouseover', function(){
+        //m.setState({over:this.id});
+        select(this).style("background-color", overcolor);
+        });
+
+    }
 
 
     render(){
 
         return(
 
-            <div className="row">
+            <div className="container">
+
+                <div className="col half">
+
+                    <div className="col half">
+
+                        {this.state.list.slice(0,16).map(state=>(
+                            this.displayStates(state)
+                        ))}
+
+                    </div>
+
+                    <div className="col half">
+
+                        {this.state.list.slice(16).map(state=>(
+                            this.displayStates(state)
+                        ))}
+
+                    </div>
+                    
+                </div>
+
+
                 <div className="col half">
 
                     <svg   viewBox="0 30 800 550" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -104,42 +152,6 @@ class Mapa extends React.Component{
                         </g>
                     </svg>
 
-                </div>
-
-                <div className="col half">
-
-                    <div className="col quarter">
-
-                        {this.state.list.slice(0,8).map(state=>(
-                            this.displayStates(state)
-                        ))}
-
-                    </div>
-
-                    <div className="col quarter">
-
-                        {this.state.list.slice(8,16).map(state=>(
-                            this.displayStates(state)
-                        ))}
-
-                    </div>
-
-                    <div className="col quarter">
-
-                        {this.state.list.slice(16,24).map(state=>(
-                            this.displayStates(state)
-                        ))}
-
-                    </div>
-
-                    <div className="col quarter">
-
-                        {this.state.list.slice(24).map(state=>(
-                            this.displayStates(state)
-                        ))}
-
-                    </div>
-                    
                 </div>
 
             </div>

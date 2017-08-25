@@ -1,0 +1,33 @@
+.container{
+    display: block;
+    width: 80%;
+    margin: 5% auto;
+}
+
+.container .activated{
+    background-color: #8abf85;
+    border-color: #8abf85;
+}
+
+.container .col{
+    display: inline-block;
+}
+
+.container .col.half{
+    width: 50%;
+    padding: 0 0.75%
+}
+
+.container .col.quarter{
+    width: 25%;
+    text-align: center;
+    margin: 0% 3%;
+}
+.container .state-item{
+    margin: 1% 0;
+    display: block;
+    color: white;
+    background-color: rgba(138,191,133, 0.5);
+    font-size: 20px;
+    text-align: center;
+}

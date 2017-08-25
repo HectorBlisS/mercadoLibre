@@ -144,14 +144,14 @@ const categorias = [{
 class Basicos extends Component{
 
   constructor(){
-    super()
+    super();
     this.state={
       anuncio:{
         categorias:'',
         estado:'',
         titulo:'',
         precio:'',
-        fotos:[],
+        fotos:"",
       },
       previewVisible: false,
       previewImage: '',
@@ -161,34 +161,51 @@ class Basicos extends Component{
 
 
   componentWillMount(){
-    this.setState({anuncio:this.props.anuncio})
-    this.props.anuncio.fotos&&this.props.anuncio.fotos.length>=1?this.setState({fileList:this.props.anuncio.fotos}):console.log('aun no hay fotos')
+    //this.setState({anuncio:this.props.anuncio})
+   // this.props.anuncio.fotos&&this.props.anuncio.fotos.length>=1?this.setState({fileList:this.props.anuncio.fotos}):console.log('aun no hay fotos')
   }
 
 
   onChangeSelects=(value) =>{
-    let field = this.state.selectname
+    let field = this.state.selectname;
     let anuncio = this.state.anuncio;
-    anuncio[field] = value
+    anuncio[field] = value;
     this.setState({anuncio});
-    console.log(this.state.anuncio)
+    //console.log(this.state.anuncio)
     //put in the last input
-    this.props.pasala(this.state.anuncio)
-  }
+   // this.props.pasala(this.state.anuncio)
+      //Checamos si activamos el next:
+      this.validateEmpty();
+  };
 
   selectName=(e)=>{
     this.setState({selectname:e.target.name})
-    console.log(e.target.name)
-  }
+    //console.log(e.target.name)
+  };
 
   handleText = (event) => {
       let field = event.target.name
       let anuncio = this.state.anuncio;
       anuncio[field] = event.target.value
       this.setState({anuncio});
-      console.log(this.state.anuncio)
-      this.props.pasala(this.state.anuncio)
-  }
+      //console.log(this.state.anuncio)
+      //this.props.pasala(this.state.anuncio)
+      //Checamos si activamos el next:
+      this.validateEmpty();
+  };
+
+  validateEmpty = () => {
+    const anuncio = this.state.anuncio;
+
+    for (let k in anuncio){
+      if(anuncio[k] === ""){
+        console.log(anuncio);
+        return false
+      }
+    }
+      this.props.enable();
+      this.props.updateAnuncio(this.state.anuncio);
+  };
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -197,15 +214,17 @@ class Basicos extends Component{
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
-  }
+  };
 
   handleChange = ({ fileList }) => {
-    let anuncio = this.state.anuncio
+    let anuncio = this.state.anuncio;
     anuncio['fotos'] = this.state.fileList
     this.setState({ fileList,anuncio })
     console.log("handleChange", fileList)
-    this.props.pasala(this.state.anuncio)
-  }
+    //this.props.pasala(this.state.anuncio)
+      //Checamos si activamos el next:
+      this.validateEmpty();
+  };
   
   render(){
     const uploadButton = (

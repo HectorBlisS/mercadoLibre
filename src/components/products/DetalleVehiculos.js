@@ -75,146 +75,102 @@ const marcas=[
   {nombre:'Vauxhall'},
   {nombre:'Volkswagen'},
   {nombre:'Volvo'},
-]
+];
 
 class DetalleVehiculos extends Component{
   constructor(){
-    super()
+    super();
     this.state={
       search:'',
-      anuncio:{
-        titulo:'',
-        precio:'',
-        fotos:[],
-        categorias:'',
-        estado:'',
+      isCar: {
+          descripcion:'',
+          combustible:'',
+          transmision:'',
+          marca:'',
+          modelo:'',
+          ano:'',
+          km:''
       },
-      marcas:[
-        {nombre:'Alfa Romeo'},
-        {nombre:'Aston Martin'},
-        {nombre:'Audi'},
-        {nombre:'Bentley'},
-        {nombre:'Benz'},
-        {nombre:'BMW'},
-        {nombre:'Bugatti'},
-        {nombre:'Cadillac'},
-        {nombre:'Chevrolet'},
-        {nombre:'Chrysler'},
-        {nombre:'Citroen'},
-        {nombre:'Corvette'},
-        {nombre:'DAF'},
-        {nombre:'Dacia'},
-        {nombre:'Daewoo'},
-        {nombre:'Daihatsu'},
-        {nombre:'Datsun'},
-        {nombre:'De Lorean'},
-        {nombre:'Dino'},
-        {nombre:'Dodge'},
-        {nombre:'Farboud'},
-        {nombre:'Ferrari'},
-        {nombre:'Fiat'},
-        {nombre:'Ford'},
-        {nombre:'Honda'},
-        {nombre:'Hummer'},
-        {nombre:'Hyundai'},
-        {nombre:'Jaguar'},
-        {nombre:'Jeep'},
-        {nombre:'KIA'},
-        {nombre:'Koenigsegg'},
-        {nombre:'Lada'},
-        {nombre:'Lamborghini'},
-        {nombre:'Lancia'},
-        {nombre:'Land Rover'},
-        {nombre:'Lexus'},
-        {nombre:'Ligier'},
-        {nombre:'Lincoln'},
-        {nombre:'Lotus'},
-        {nombre:'Martini'},
-        {nombre:'Maserati'},
-        {nombre:'Maybach'},
-        {nombre:'Mazda'},
-        {nombre:'McLaren'},
-        {nombre:'Mercedes'},
-        {nombre:'Mercedes-Benz'},
-        {nombre:'Mini'},
-        {nombre:'Mitsubishi'},
-        {nombre:'Nissan'},
-        {nombre:'Noble'},
-        {nombre:'Opel'},
-        {nombre:'Peugeot'},
-        {nombre:'Pontiac'},
-        {nombre:'Porsche'},
-        {nombre:'Renault'},
-        {nombre:'Rolls-Royce'},
-        {nombre:'Rover'},
-        {nombre:'Saab'},
-        {nombre:'Seat'},
-        {nombre:'Skoda'},
-        {nombre:'Smart'},
-        {nombre:'Spyker'},
-        {nombre:'Subaru'},
-        {nombre:'Suzuki'},
-        {nombre:'Toyota'},
-        {nombre:'Vauxhall'},
-        {nombre:'Volkswagen'},
-        {nombre:'Volvo'},
-      ]
+      marcas:marcas,
+        anuncio:null,
     }
   }
 
   componentWillMount(){
-    this.setState({anuncio:this.props.anuncio})
+    this.setState({anuncio:this.props.anuncio});
+    this.props.disable();
   }
 
   handleText = (event) => {
-      let field = event.target.name
-      let anuncio = this.state.anuncio;
-      anuncio[field] = event.target.value
-      this.setState({anuncio});
-      console.log(this.state.anuncio)
-      this.props.pasala(this.state.anuncio)
-    }
+      let field = event.target.name;
+      let isCar = this.state.isCar;
+      isCar[field] = event.target.value;
+      this.setState({isCar});
+      this.validateEmpty();
+    };
 
 
   handleCombustible=(value) =>{
-    let field = 'combustible'
-    let anuncio = this.state.anuncio;
-    anuncio[field] = value
-    this.setState({anuncio});
-    console.log(this.state.anuncio)
-  }
+    let field = 'combustible';
+    let isCar = this.state.isCar;
+    isCar[field] = value;
+    this.setState({isCar});
+    this.validateEmpty();
+  };
+
   handletrans=(value) =>{
-    let field = 'transmision'
-    let anuncio = this.state.anuncio;
-    anuncio[field] = value
-    this.setState({anuncio});
-    console.log(this.state.anuncio)
-  }
-  handleMarca = (value,e) => {
-    this.setState({search:value})
-    console.log(this.state.search)
-    let field = 'marca'
-    let anuncio = this.state.anuncio;
-    anuncio[field] = value
-    this.setState({anuncio});
-    console.log(this.state.anuncio)
-  }
-  handleModelo = (value,e) => {
-    this.setState({search:value})
-    console.log(this.state.search)
-    let field = 'modelo'
-    let anuncio = this.state.anuncio;
-    anuncio[field] = value
-    this.setState({anuncio});
-    console.log(this.state.anuncio)
-  }
+    let field = 'transmision';
+    let isCar = this.state.isCar;
+      isCar[field] = value;
+    this.setState({isCar});
+    this.validateEmpty();
+  };
+
+  handleMarca = (value, e) => {
+    this.setState({search:value});
+    let field = 'marca';
+    let isCar = this.state.isCar;
+      isCar[field] = value;
+    this.setState({isCar});
+    this.validateEmpty();
+  };
+
+  handleModelo = (value, e) => {
+    this.setState({search:value});
+    let field = 'modelo';
+    let isCar = this.state.isCar;
+      isCar[field] = value;
+    this.setState({isCar});
+    this.validateEmpty();
+  };
+
+    validateEmpty = () => {
+        const anuncio = this.state.anuncio;
+        const isCar = this.state.isCar;
+
+        for (let k in isCar){
+            if(isCar[k] === ""){
+                console.log(isCar);
+                return false
+            }
+        }
+        this.props.enable();
+        console.log(anuncio);
+        anuncio["isCar"] = isCar;
+        this.setState({anuncio});
+        this.props.updateAnuncio(anuncio);
+    };
+
 
   render(){
     let filtered = this.state.marcas.filter((marca)=>{
 
         return marca.nombre.toLowerCase().indexOf(
           this.state.search.toLowerCase())!== -1
-      })
+      });
+
+    const {isCar} = this.state;
+
     return(
       <div style={this.props.style}>
         <h2>Describe tu anuncio</h2>
@@ -222,14 +178,14 @@ class DetalleVehiculos extends Component{
           <TextArea
             autosize
             name='descripcion'
-            value={this.state.anuncio.descripcion}
+            value={isCar.descripcion}
             style={{width:'50%'}}
             size='large'
             onChange={this.handleText}
             placeholder="blablabla"/>
         <h2>Tipo de Combustible</h2>
         <Select
-          value={this.state.anuncio.combustible}
+          value={isCar.combustible}
           name="combustible"
           placeholder="Combustible"
           style={{width:'50%'}}
@@ -243,7 +199,7 @@ class DetalleVehiculos extends Component{
        </Select>
        <h2>Tipo de Transmisión</h2>
        <Select
-         value={this.state.anuncio.transmision}
+         value={isCar.transmision}
          name="transmisión"
          style={{width:'50%'}}
          placeholder="Transmisión"
@@ -257,7 +213,7 @@ class DetalleVehiculos extends Component{
       <Select
       style={{width:'50%'}}
        mode="combobox"
-       value={this.state.search?this.state.search:this.props.anuncio.marca}
+       value={this.state.search?this.state.search:isCar.marca}
        placeholder='Marca'
        notFoundContent=""
        defaultActiveFirstOption={false}
@@ -265,42 +221,32 @@ class DetalleVehiculos extends Component{
        filterOption={false}
        onChange={this.handleMarca}
      >
-        {filtered.map(marca=>{
+        {filtered.map((marca,index)=>{
           return(
-            <Option value={marca.nombre}>{marca.nombre}</Option>
+            <Option key={index} value={marca.nombre}>{marca.nombre}</Option>
           )
         })}
      </Select>
      <h2>Modelo</h2>
-     <Select
-     style={{width:'50%'}}
-
-      value={this.state.search?this.state.search:this.props.anuncio.marca}
-      placeholder='Modelo'
-      notFoundContent=""
-      defaultActiveFirstOption={false}
-      showArrow={false}
-      filterOption={false}
-      onChange={this.handleModelo}
-    >
-       {filtered.map(marca=>{
-         return(
-           <Option value={marca.nombre}>{marca.nombre}</Option>
-         )
-       })}
-    </Select>
+        <Input
+            value={isCar.modelo}
+            name='modelo'
+            style={{width:'50%'}}
+            size='large'
+            onChange={this.handleText}
+            placeholder="Modelo del Vehiculo"/>
      <h2>Año</h2>
      <Input
-       value={this.state.anuncio.año}
-       name='año'
+       value={isCar.ano}
+       name='ano'
        style={{width:'50%'}}
        size='large'
        onChange={this.handleText}
        placeholder="Año del vehículo"/>
      <h2>Kilometraje</h2>
        <Input
-         value={this.state.anuncio.kilometros}
-         name='kilometros'
+         value={isCar.km}
+         name='km'
          style={{width:'50%'}}
          size='large'
          onChange={this.handleText}

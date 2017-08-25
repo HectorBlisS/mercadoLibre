@@ -1,0 +1,61 @@
+.categories-container{
+	width: 80%;
+	margin: 0 auto;
+}
+
+.categories-container .Card{
+	position: relative;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 2px;
+}
+
+.categories-container .row{
+	margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
+.categories-container .row .col{
+	float: left;
+	box-sizing: border-box;
+	padding: 0 0.75rem;
+}
+
+.Card .card-image img{
+	display: block;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.Card .card-title{
+	text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+	font-size: 22px;
+	color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+	padding: 20px;
+	font-weight: 300;
+}
+
+.categories-container .half{
+	width: 50%;
+	margin-left: auto;
+	left: auto;
+	right: auto;
+}
+
+.categories-container .quarter{
+	width: 25%;
+	margin-left: auto;
+	left: auto;
+	right: auto;
+}

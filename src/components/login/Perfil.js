@@ -11,11 +11,11 @@ class Perfil extends Component{
     
     state = {
         user:{photoURL:'',displayName:''},
-        userName:'Héctor BlisS',
+        //userName:'Héctor BlisS',
         tel:'',
         mail:'',
         loading:false
-    }
+    };
     
     componentWillMount(){
         /*let user = localStorage.getItem("user")
@@ -27,8 +27,7 @@ class Perfil extends Component{
                 console.log(user);
                 firebase.database().ref('users/'+user.uid)
                  .on('value', r=>{
-                     console.log(r.val());
-                      this.setState({user:r.val()});
+                     if(r.val() !== null) this.setState({user:r.val()});
                      console.log(r.val());
                      
                  })
@@ -60,13 +59,19 @@ class Perfil extends Component{
     this.setState({ 
         user
     });
-  }
+  };
   
   guardarPerfil = () => {
       this.setState({loading:true});
       const user = this.state.user;
       firebase.database().ref('users/'+user.uid)
-      .set(user)
+      .set({
+          displayName:user.displayName,
+          photoURL:user.photoURL,
+          email:user.email,
+          tel:user.tel,
+          uid:user.uid
+      })
       .then(r=>{
           this.setState({loading:false});
           message.success("Perfil guardado");
@@ -92,7 +97,7 @@ class Perfil extends Component{
     <Col span={6}>
          <img 
                 style={styles.img}
-                src={user.photoURL} 
+                src={user.photoURL}
                 alt=""/>
     </Col>
       <Col span={18}>

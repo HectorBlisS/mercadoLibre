@@ -22,7 +22,7 @@ class NavBar extends Component{
 
     state = {
         user:null
-    }
+    };
 
     componentWillMount(){
         const user = JSON.parse(localStorage.getItem('user'));
@@ -39,7 +39,7 @@ class NavBar extends Component{
  cerrarSesion = () => {
     firebase.auth().signOut();
     localStorage.removeItem("user");
-     this.setState({user:null});
+    this.setState({user:null});
 //    this.props.history.push('/');
 };
 
@@ -118,7 +118,7 @@ class NavBar extends Component{
 </header>
         );
     }
-};
+}
 
 const styles = {
     logo:{
@@ -126,6 +126,6 @@ const styles = {
         height:'30px',
         paddingBottom:0
     }
-}
+};
 
 export default NavBar;
