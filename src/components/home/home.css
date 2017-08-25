@@ -18,6 +18,7 @@ body, html{
 	height: auto;
 	background-color: 	#8abf85; 
 	display: table;
+	z-index: 9999;
 	padding: 0;
 	margin: 0;
 	position: fixed;
@@ -100,6 +101,68 @@ body, html{
 
 .ant-carousel .slick-slide h3 {
   color: #fff;
+}
+
+.home .categories-container{
+	width: 70%;
+	margin: 0 auto;
+}
+
+.home .Card{
+	position: relative;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 2px;
+}
+
+.home .categories-container .row{
+	margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
+.home .row .col{
+	float: left;
+	box-sizing: border-box;
+	padding: 0 0.75rem;
+}
+
+.Card .card-image img{
+	display: block;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.Card .card-title{
+	text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+	font-size: 22px;
+	color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+	padding: 20px;
+	font-weight: 300;
+}
+
+.home .half{
+	width: 50%;
+	margin-left: auto;
+	left: auto;
+	right: auto;
+}
+
+.home .quarter{
+	width: 25%;
+	margin-left: auto;
+	left: auto;
+	right: auto;
 }
 
 .ant-carousel .slick-slide img {

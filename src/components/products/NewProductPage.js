@@ -39,11 +39,13 @@ class NewProductPage extends Component{
      super(props);
      this.state = {
        current: 0,
-       anuncio:{}
+       anuncio:{},
+       disabled: true
      };
    }
    publicar=()=>{
      message.success('Processing complete!')
+     this.handleImageUpload()
    }
    next() {
      const current = this.state.current + 1;
@@ -57,6 +59,15 @@ class NewProductPage extends Component{
      this.setState({anuncio:a})
    }
 
+  handleImageUpload = () => {
+
+    this.state.anuncio.fotos.map((foto)=>{
+      let user = JSON.parse(localStorage.getItem("user"));
+      let storage = firebase.storage().ref("product_images/"+user.uid)
+      storage.child(foto.name).put(foto)
+    })
+   //storage.child(file.name).put(file));
+ }
 
   componentWillMount(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -82,7 +93,7 @@ class NewProductPage extends Component{
         <div className="steps-content">
           {this.state.current===0?
 
-              <Basicos style={styles.stepContainer} pasala={this.pasala} anuncio={this.state.anuncio}/>
+              <Basicos style={styles.stepContainer} pasala={this.pasala} anuncio={this.state.anuncio} handleImageUpload={this.handleImageUpload}/>
           :
           this.state.current===1?
               <DetalleVehiculos style={styles.stepContainer} pasala={this.pasala} anuncio={this.state.anuncio}/>:
@@ -93,7 +104,7 @@ class NewProductPage extends Component{
           {
             this.state.current < steps.length - 1
             &&
-              <Button type="primary" onClick={() => this.next()}>Next</Button>
+              <Button type="primary" onClick={() => this.next()} disabled={false}  >Next</Button>
           }
           {
             this.state.current === steps.length - 1

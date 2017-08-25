@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import firebase from '../../api/firebase';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { Card, message } from 'antd';
+import "./login.css";
 
 
 
@@ -20,13 +21,15 @@ class Login extends Component {
         }
     }
     
-    fireLogin = () => {
-      this.setState({loading:true});  
-    var provider = new firebase.auth.GoogleAuthProvider();
+    fireLogin = (pro) => {
+        console.log(pro)
+      this.setState({loading:true});
+      let provider;
+    pro === 'google' ? provider = new firebase.auth.GoogleAuthProvider() : provider = new firebase.auth.FacebookAuthProvider()
     firebase.auth().signInWithPopup(provider)
         .then(result => {
             localStorage.setItem("user", JSON.stringify(result.user));
-            console.log(result.user);
+            console.log(result.user.providerData[0]);
             this.setState({loading:false});
             message.success("Bienvenido "+result.user.displayName);
         console.log(localStorage.getItem("user"));
@@ -34,7 +37,7 @@ class Login extends Component {
     })
         .catch(e=>{
         this.setState({loading:false});
-         message.error('No se puedo iniciar sesión'+e);
+         message.error('No se puedo iniciar sesión '+e);
         
     });
 
@@ -65,19 +68,28 @@ class Login extends Component {
             <Checkbox>Recuerdame</Checkbox>
 
           <a className="login-form-forgot" href="">¿Olvidaste tu password?</a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Inicia
-          </Button>
-          O <a href="">¡Registrate ahora!</a>
+          
+
+          <div className="items-contaiener">
+            <Button type="primary" htmlType="submit" className="login-form-button">
+                Inicia
+            </Button>
+            <span>O</span>
+            <a href="">¡Registrate ahora!</a>
+          </div>
+
+          
           <div style={{textAlign:'center'}}>
               Inicia con redes sociales
                  <br/>
              <Button 
-             onClick={this.fireLogin}
+             onClick={()=>this.fireLogin('google')}
              type="danger"
              loading={loading}
              >Google</Button>
-            <Button type="primary">Facebook</Button>
+            <Button type="primary"
+            onClick={()=>this.fireLogin('facebook')}
+            >Facebook</Button>
             <Button type="dashed">Twitter</Button>
 
 
