@@ -48,19 +48,20 @@ class Mapa extends React.Component{
     componentDidMount(){
         const m = this;
 
-        const initialcolor = "#ffecb3";
-        const overcolor =  "#ff8f00";
+        this.initialcolor = "#ffecb3";
+        this.overcolor =  "#ff8f00";
         const paths = selectAll("path");
-        paths.style("fill", initialcolor);
+        paths.style("fill", m.initialcolor);
+        console.log(paths);
 
         paths.on('mouseover', function(){
         this.over = this.id;
         m.setState({over:this.id});
-        select(this).style("fill", overcolor);
+        select(this).style("fill", m.overcolor);
         });
 
         paths.on('mouseout', function(){
-        select(this).style("fill",initialcolor);
+        select(this).style("fill",m.initialcolor);
         m.setState({over:""})
         });
 
@@ -68,22 +69,21 @@ class Mapa extends React.Component{
 
 
     displayStates = (state) => (
-        <Link to={"/anuncios/"+state.name} key={state.id} className="state-item" >
+        <Link to={"/anuncios/"+state.name} key={state.id} className="state-item" onMouseEnter={()=>this.fillState(state.id)} onMouseLeave={()=>this.unFillState(state.id)}>
             <div className={this.state.over === state.id ? 'activated': ""} >{state.name}</div>
         </Link>   
     );
 
 
-    fillState = () => {
-        const btns = selectAll(".state-item");
+    fillState = (state) => {
         const overcolor =  "#ff8f00";
-        const m = this;
+        select("path#"+state).style("fill", this.overcolor);
+        this.setState({over:state})
+    }
 
-        btns.on('mouseover', function(){
-        //m.setState({over:this.id});
-        select(this).style("background-color", overcolor);
-        });
-
+    unFillState = (state) => {
+        select("path#"+state).style("fill", this.initialcolor);
+        this.setState({over:""})
     }
 
 
