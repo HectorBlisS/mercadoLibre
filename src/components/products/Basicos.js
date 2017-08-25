@@ -158,11 +158,12 @@ class Basicos extends Component{
       fileList: [],
     }
   }
+
+
   componentWillMount(){
     this.setState({anuncio:this.props.anuncio})
     this.props.anuncio.fotos&&this.props.anuncio.fotos.length>=1?this.setState({fileList:this.props.anuncio.fotos}):console.log('aun no hay fotos')
   }
-
 
 
   onChangeSelects=(value) =>{
@@ -174,10 +175,12 @@ class Basicos extends Component{
     //put in the last input
     this.props.pasala(this.state.anuncio)
   }
+
   selectName=(e)=>{
     this.setState({selectname:e.target.name})
     console.log(e.target.name)
   }
+
   handleText = (event) => {
       let field = event.target.name
       let anuncio = this.state.anuncio;
@@ -185,7 +188,8 @@ class Basicos extends Component{
       this.setState({anuncio});
       console.log(this.state.anuncio)
       this.props.pasala(this.state.anuncio)
-    }
+  }
+
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file) => {
@@ -202,6 +206,7 @@ class Basicos extends Component{
     console.log("handleChange", fileList)
     this.props.pasala(this.state.anuncio)
   }
+  
   render(){
     const uploadButton = (
       <div>
