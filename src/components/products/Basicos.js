@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-import { Cascader, Input, Select, Upload, Icon, Modal } from 'antd';
-import firebase from '../../api/firebase';
-
-const Option = Select.Option;
-
+import { Cascader, Input, Upload, Icon, Modal } from 'antd';
 
 const estados = [{
   value:'México',

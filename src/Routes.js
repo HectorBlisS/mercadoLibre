@@ -1,6 +1,6 @@
 import React from 'react';
 import HomePage from './components/home/HomePage';
-import Login from './components/login/Login';
+import Login from './components/login/theLogin';
 import Perfil from './components/login/Perfil';
 import NewProductPage from './components/products/NewProductPage';
 import ProductList from './components/products/ProductList';

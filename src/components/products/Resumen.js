@@ -25,7 +25,7 @@ class Resumen extends Component{
               <Carousel autoplay vertical style={{width:'100%'}}>
               {this.state.anuncio.fotos.map((foto, index)=>{
                 return(
-                  <img key={index} src={foto.thumbUrl} style={{width:'100%', height:400}}/>
+                  <img key={index} src={foto.thumbUrl} style={{width:'100%', height:400}} alt="fotos subidas"/>
                 )
               })}
 
@@ -40,7 +40,7 @@ class Resumen extends Component{
                 <p>Origen: {this.props.anuncio.estado[1]}</p>
 
                 <p>Descripción: {this.props.anuncio.descripcion}</p>
-                {this.props.anuncio.categorias[1]=="Autos"?
+                {this.props.anuncio.categorias[1] === "Autos"?
                   <div>
                     <p>Marca: {this.props.anuncio.marca}</p>
                     <p>Modelo: {this.props.anuncio.modelo} {this.props.anuncio.año}</p>

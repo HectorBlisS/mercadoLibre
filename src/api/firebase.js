@@ -10,4 +10,36 @@ import * as firebase from 'firebase';
   };
   firebase.initializeApp(config);
 
+  const productsChild = firebase.database().ref('productos');
+
+  export const api = {
+
+      getProducts: () => {},
+      getUserProducts: (userId) => {},
+      saveProduct: (product) => {
+        return productsChild
+            .push(product)
+            .then(r=>{
+              return r.key;
+            })
+            .catch(e=>{
+              return e;
+            });
+      },
+      saveUserProduct: (childId, userId) => {
+        const userProducts = firebase.database().ref('users/'+userId+'/productos');
+        return userProducts.child(childId).set(true);
+      },
+      getProduct:(id)=>{},
+      getUserProduct:(id,userId)=>{},
+      putProduct:(id,data)=>{},
+      putUserProduct:(id,data,userId)=>{},
+      deleteProduct:(id)=>{
+        firebase.database().ref("productos/"+id).set(null);
+        return true;
+      },
+      deleteUserProduct:(id,userId)=>{}
+
+  };
+
 export default firebase;

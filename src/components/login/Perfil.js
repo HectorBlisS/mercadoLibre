@@ -26,17 +26,17 @@ class Perfil extends Component{
         firebase.auth().onAuthStateChanged((user) => {
             if(user){
                 this.setState({user});
-                console.log(user);
+                //console.log(user);
                 firebase.database().ref('users/'+user.uid)
                  .on('value', r=>{
                      if(r.val() !== null) this.setState({user:r.val()});
-                     console.log(r.val());
+                     //console.log(r.val());
                      
                  })
             }else{
                 this.props.history.push('/login');
             }
-        })
+        });
 
     }
         
@@ -66,6 +66,7 @@ class Perfil extends Component{
   guardarPerfil = () => {
       this.setState({loading:true});
       const user = this.state.user;
+     // console.log(user);
       firebase.database().ref('users/'+user.uid)
       .set({
           displayName:user.displayName,
@@ -83,8 +84,6 @@ class Perfil extends Component{
     
     render(){
         const {user, loading} = this.state;
-        const { userName } = this.state;
-        const suffix = userName ? <Icon type="close-circle" onClick={this.emitEmpty} /> : null;
         return(
     <div 
         style={{

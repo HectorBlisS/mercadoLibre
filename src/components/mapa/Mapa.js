@@ -42,7 +42,7 @@ class Mapa extends React.Component{
             {"id":"MX-ZAC",'name': 'Zacatecas'}
         ],
         over:""
-    }
+    };
 
 
     componentDidMount(){
@@ -76,15 +76,14 @@ class Mapa extends React.Component{
 
 
     fillState = (state) => {
-        const overcolor =  "#ff8f00";
         select("path#"+state).style("fill", this.overcolor);
         this.setState({over:state})
-    }
+    };
 
     unFillState = (state) => {
         select("path#"+state).style("fill", this.initialcolor);
         this.setState({over:""})
-    }
+    };
 
 
     render(){
