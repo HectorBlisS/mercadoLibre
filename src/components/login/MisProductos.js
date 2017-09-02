@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import firebase, {api} from '../../api/firebase';
-import { Card, Button, Popconfirm } from 'antd';
+import { Card, Button, Popconfirm, Carousel } from 'antd';
 
 
 
@@ -102,10 +102,13 @@ class MisProductos extends Component{
             const {p} = props;
             //console.log(p);
             return(
-                <Card style={{ width: 240 }} bodyStyle={{ padding: 0 }}>
-                    <div className="custom-image">
-                        <img alt="example" width="100%" src="" />
-                    </div>
+                <Card style={styles.card} bodyStyle={{ padding: 0 }}>
+
+                        <Carousel autoplay vertical>
+                            {p.fotos.map((f,i)=><div key={i}><img style={styles.fotoC} alt="example" width="100%" src={f} /></div>)}
+                        </Carousel>
+
+
                     <div className="custom-card">
                         <h3>{p.titulo}</h3>
                         <p>$ {p.precio}</p>
@@ -139,5 +142,16 @@ class MisProductos extends Component{
         );
     }
 }
+
+const styles = {
+    fotoC:{
+        height:'200px',
+    },
+    card:{
+        width:'340px',
+        margin:'20px',
+        display:'inline-block'
+    }
+};
 
 export default MisProductos;
