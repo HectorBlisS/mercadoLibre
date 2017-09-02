@@ -32,7 +32,16 @@ import * as firebase from 'firebase';
       },
       getProduct:(id)=>{},
       getUserProduct:(id,userId)=>{},
-      putProduct:(id,data)=>{},
+      putProduct:(id,data)=>{
+          let updates = {};
+          updates['/productos/'+id] = data;
+          return firebase.database().ref().update(updates)
+              .then(r=>{return r})
+              .catch(e=>{
+                  console.log(e);
+                  return e
+              });
+      },
       putUserProduct:(id,data,userId)=>{},
       deleteProduct:(id)=>{
         firebase.database().ref("productos/"+id).set(null);

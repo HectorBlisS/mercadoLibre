@@ -131,7 +131,7 @@ class MisProductos extends Component{
         return(
             <div>
                 {<div>
-                    <h1>Productos de {user.displayName}</h1>
+                    <h1>Anuncios de {user.displayName}</h1>
                     {products.map((p,i)=><DrawP key={i} p={p} />)}
                 </div>}
 

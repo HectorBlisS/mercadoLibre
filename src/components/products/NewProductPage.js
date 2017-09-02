@@ -41,18 +41,55 @@ class NewProductPage extends Component{
       this.setState({fotos:list});
     };
 
+    fotosDespues = (key) => {
+        const fotos = this.state.fotos;
+        //const anuncioRef = firebase.database().ref('productos/' + key);
+        const storage = firebase.storage().ref("product_images/" + key + "/");
+        let anuncio = this.state.anuncio;
+        anuncio['fotos'] = [];
+
+        fotos.map(foto=> {
+
+            storage.child(foto.name).put(foto.originFileObj)
+                .then(r => {
+                    console.log(r.downloadURL);
+                    anuncio['fotos'].push(r.downloadURL);
+                    //this.setState({anuncio});
+                    api.putProduct(key, anuncio)
+                        .then(r=>{
+                            console.log('foto subida: ');
+                        });
+                })
+                .catch(e=>{
+                    console.log(e);
+                    message.error("algo falló, vuelve a intentarlo");
+
+                });
+
+
+
+        });
+
+    };
+
    publicar = () => {
        //rama general
        const user = this.state.user;
        let anuncio = this.state.anuncio;
        anuncio['user'] = user.uid;
+       //anuncio['fotos'] = [];
 
        api.saveProduct(anuncio)
            .then(r=>{
                api.saveUserProduct(r, user.uid);
-               message.success("Guardadó");
+               this.setState({anuncio});
+               message.success("Tu anuncio se ha publicado");
+               this.fotosDespues(r);
            })
-           .catch(e=>message.error('falló'));
+           .catch(e=>{
+               message.error('algo falló, intentalo de nuevo perro');
+               console.log(e);
+           });
        //rama usuario
 
 

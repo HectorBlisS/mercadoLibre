@@ -25,7 +25,7 @@ class Resumen extends Component{
               <Carousel autoplay vertical style={{width:'100%'}}>
               {this.state.anuncio.fotos.map((foto, index)=>{
                 return(
-                  <img key={index} src={foto.thumbUrl} style={{width:'100%', height:400}} alt="fotos subidas"/>
+                  <div key={index}><img src={foto.thumbUrl} style={{width:'100%', height:400}} alt="fotos subidas"/></div>
                 )
               })}
 
