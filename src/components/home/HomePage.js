@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Carousel } from 'antd';
 import './home.css';
 import Ofertas from './Ofertas';
-import logo from '../../logo.svg';
 import Mapa from '../mapa/Mapa';
 import Categories from './Categories';
 

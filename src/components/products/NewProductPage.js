@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import firebase from '../../api/firebase';
+import firebase, {api} from '../../api/firebase';
 import { Steps, Button, message, Spin } from 'antd';
 import Basicos from './Basicos';
 import DetalleVehiculos from './DetalleVehiculos';
@@ -41,32 +41,83 @@ class NewProductPage extends Component{
       this.setState({fotos:list});
     };
 
+    fotosDespues = (key) => {
+        const fotos = this.state.fotos;
+        //const anuncioRef = firebase.database().ref('productos/' + key);
+        const storage = firebase.storage().ref("product_images/" + key + "/");
+        let anuncio = this.state.anuncio;
+        anuncio['fotos'] = [];
+
+        fotos.map(foto=> {
+
+            storage.child(foto.name).put(foto.originFileObj)
+                .then(r => {
+                    console.log(r.downloadURL);
+                    anuncio['fotos'].push(r.downloadURL);
+                    //this.setState({anuncio});
+                    api.putProduct(key, anuncio)
+                        .then(r=>{
+                            console.log('foto subida: ');
+                        });
+                })
+                .catch(e=>{
+                    console.log(e);
+                    message.error("algo falló, vuelve a intentarlo");
+
+                });
+
+
+
+        });
+
+    };
+
    publicar = () => {
-      this.setState({loading:true});
-      const anuncio = this.state.anuncio;
-      const fotos = this.state.fotos;
-      const user = this.state.user;
-      anuncio.fotos = [];
-      anuncio["user"] = user.uid;
-      anuncio['date'] = Date.now();
+       //rama general
+       const user = this.state.user;
+       let anuncio = this.state.anuncio;
+       anuncio['user'] = user.uid;
+       //anuncio['fotos'] = [];
 
-      this.setState({anuncio});
+       api.saveProduct(anuncio)
+           .then(r=>{
+               api.saveUserProduct(r, user.uid);
+               this.setState({anuncio});
+               message.success("Tu anuncio se ha publicado");
+               this.fotosDespues(r);
+           })
+           .catch(e=>{
+               message.error('algo falló, intentalo de nuevo perro');
+               console.log(e);
+           });
+       //rama usuario
 
 
-      firebase.database().ref('users/'+ user.uid + '/productos')
-          .push(anuncio)
-          .then(r=>{
+    //  this.setState({loading:true});
+      //const anuncio = this.state.anuncio;
+    //  const fotos = this.state.fotos;
+    //  const user = this.state.user;
+    //  anuncio.fotos = [];
+    //  anuncio["user"] = user.uid;
+    //  anuncio['date'] = Date.now();
+
+    //  this.setState({anuncio});
+
+
+    //  firebase.database().ref('users/'+ user.uid + '/productos')
+      //    .push(anuncio)
+        //  .then(r=>{
 
               //console.log(r.key);
-              firebase.database().ref('productos/'+r.key)
-                  .set(anuncio);
+        //      firebase.database().ref('productos/'+r.key)
+          //        .set(anuncio);
 
-              this.handleImageUpload(r.key);
-              message.success("Tu auncio de ha publicado");
+           //   this.handleImageUpload(r.key);
+           //   message.success("Tu auncio de ha publicado");
               //this.setState({loading:false});
-              this.props.history.push('/perfil');
+             // this.props.history.push('/perfil');
 
-              this.handleImageUpload(r.key);
+              //this.handleImageUpload(r.key);
               //message.success("Tu auncio de ha publicado");
               //this.setState({loading:false});
               //this.props.history.push('/perfil');
@@ -75,12 +126,12 @@ class NewProductPage extends Component{
 
 
 
-          })
-          .catch(e=>{
-              message.error('No se pudo publicar');
-              console.log(e);
+        //  })
+          //.catch(e=>{
+            //  message.error('No se pudo publicar');
+              //console.log(e);
 
-          });
+          //});
        //
 
 
@@ -117,10 +168,11 @@ class NewProductPage extends Component{
       //console.log("archivo",foto);
       let storage = firebase.storage().ref("product_images/" + key)
       storage.child(foto.name).put(foto.originFileObj)
+        return true;
 
     });
    //storage.child(file.name).put(file));
-      return true;
+
 
     const anuncio = this.state.anuncio;
     let fotosArray = [];
@@ -141,7 +193,7 @@ class NewProductPage extends Component{
               this.setState({fotosArray});
           });
 
-
+        return true;
     });
     message.success("Tu Anuncio se ha publicado con éxito");
       this.props.history.push('/perfil');

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Row, Col, Carousel, Card, Avatar, Input, message, Button} from 'antd';
+import { Row, Col, Card, Avatar, Input, message, Button} from 'antd';
 import firebase from '../../api/firebase';
 
 const { TextArea } = Input;
@@ -49,12 +49,13 @@ class ProductDetail extends Component{
                   )
                 })}</p>
               <div style={{width:'90%'}}>
-                <img style={{width:'90%'}} src={this.state.laFoto}/>
+                <img alt="lafoto" style={{width:'90%'}} src={this.state.laFoto}/>
               </div>
               <div style={{width:'100px', display:'flex'}}>
                 {this.state.anuncio.fotos.map(f=>{
                   return(
                     <img
+                        alt="foto"
                       src={f}
                       style={{width:'100%', height:'100%', padding:'1%'}}
                       onClick={()=>this.changeFoto(f)}/>

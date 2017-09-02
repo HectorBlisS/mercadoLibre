@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Col, Row, Card} from 'antd';
-import {Link} from 'react-router-dom';
 import CardAnuncio from './CardAnuncio';
 import firebase from '../../api/firebase';
 

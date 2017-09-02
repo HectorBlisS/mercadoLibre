@@ -1,20 +1,12 @@
-import React, {Component} from 'react';import { Layout, Avatar } from 'antd';
+import React, {Component} from 'react';import { Avatar } from 'antd';
 import {Link} from 'react-router-dom';
 //import logo from '../../logo.svg';
-import { Menu, Dropdown, Icon, Button } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import firebase from '../../api/firebase';
 
 
 
 import './home.css';
-
-
-
-const { Header } = Layout;
-const logo = "https://vendelofacil.com.mx/static/media/log_50.png"
-
-
-
 
 
 
@@ -52,21 +44,14 @@ class NavBar extends Component{
     <Menu.Item>
       <a onClick={this.cerrarSesion}>Cerrar sesión</a>
     </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href=""></a>
-    </Menu.Item>
+
   </Menu>
 );
         const {user} = this.state;
         return(
 <header className="nav-container">
    <div className="nav-group">
-      {/*<span className="nav-logo">
-         <Link to="/">
-             <img src={logo} alt="logo"/>
-         </Link>
 
-      </span>*/}
       <span className="nav-title">
         <Link to="/"
           style={{color:'white', textDecoration:'none'}}
@@ -120,12 +105,6 @@ class NavBar extends Component{
     }
 }
 
-const styles = {
-    logo:{
-        paddingTop:'20px',
-        height:'30px',
-        paddingBottom:0
-    }
-};
+
 
 export default NavBar;
