@@ -6,6 +6,7 @@ import NewProductPage from './components/products/NewProductPage';
 import ProductList from './components/products/ProductList';
 import ProductDetail from './components/products/ProductDetail';
 import {Switch, Route} from 'react-router-dom';
+import AdList from './components/catalog/AdsList';
 
 
 const Routes = props => (
@@ -16,7 +17,7 @@ const Routes = props => (
         <Route path="/nuevo" component={NewProductPage}/>
         <Route path="/anuncio/:productId" component={ProductDetail}/>
         <Route path="/anuncios/:estado" component={ProductList}/>
-
+        <Route path='/anuncios' component={AdList}/>
 
     </Switch>
 );

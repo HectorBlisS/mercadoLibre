@@ -3,11 +3,12 @@ import {Col, Row, Card} from 'antd';
 import {Link} from 'react-router-dom';
 import 'moment/locale/es';
 import moment from 'moment';
+import NoFile from '../../assets/images/Sin_imagen.png';
 
 class CardAnuncio extends React.Component {
 
   render () {
-    const anuncio = this.props.anuncio
+    const anuncio = this.props.anuncio;
     return(
       <div style={{padding:'1% 3%'}}>
         <Link to={'/anuncio/'+anuncio.key}>
@@ -15,7 +16,7 @@ class CardAnuncio extends React.Component {
             <Row>
               <Col span={6}>
                 <div style={{width:'100%', height:'100%'}}>
-                  <img alt={anuncio.fotos.length} style={{width:'80%', height:'15vh'}} src={anuncio.fotos[0]} />
+                  <img alt={anuncio.categorias} style={{width:'80%', height:'15vh'}} src={anuncio.fotos ? anuncio.fotos[0]: NoFile} />
                 </div>
               </Col>
               <Col span={12}>

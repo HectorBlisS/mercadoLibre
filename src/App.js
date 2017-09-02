@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Routes from './Routes';
 import NavBar from './components/home/NavBar';
@@ -9,7 +8,8 @@ class App extends Component {
     return (
       <div>
        <NavBar/>
-       <div style={{paddingTop:64}}>
+          {/*quite el padding alv style={{paddingTop:64}}*/}
+       <div>
            <Routes/>
        </div>
         
