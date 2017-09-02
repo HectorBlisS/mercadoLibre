@@ -8,7 +8,8 @@ class App extends Component {
     return (
       <div>
        <NavBar/>
-       <div style={{paddingTop:64}}>
+          {/*quite el padding alv style={{paddingTop:64}}*/}
+       <div>
            <Routes/>
        </div>
         
