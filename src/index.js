@@ -5,6 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {BrowserRouter} from 'react-router-dom';
 import 'antd/dist/antd.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
+
 
 const WithRouter = () => (
     <BrowserRouter>
