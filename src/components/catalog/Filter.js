@@ -7,6 +7,7 @@ class Filter extends React.Component{
 
     state={
         list: [
+            {"id":"all",'name': 'Todos'},
             {"id":"MX-AGU",'name': 'Aguacalientes'},
             {"id":"MX-BCN",'name': 'Baja California Norte'},
             {"id":"MX-BCS",'name': 'Baja California Sur'},
@@ -40,13 +41,14 @@ class Filter extends React.Component{
             {"id":"MX-YUC",'name': 'Yucatan'},
             {"id":"MX-ZAC",'name': 'Zacatecas'}
         ],
-        inputValue:100
+        inputValue:2000
     }
 
     onChange = (value) => {
         this.setState({
             inputValue: value,
         });
+        this.props.handleSearchSlider(value);
     }
 
     render(){
@@ -66,10 +68,10 @@ class Filter extends React.Component{
                     key="sub2"
                     title={<span><Icon type="line-chart" /><span>Costo</span></span>}
                 >
-                    <Slider min={100} max={200000} onChange={this.onChange} value={this.state.inputValue} style={{width:'90%', margin:'0 auto'}}/>
+                    <Slider min={2000} max={100000} onChange={this.onChange} value={this.state.inputValue} style={{width:'90%', margin:'0 auto'}}/>
                     <InputNumber
-                        min={100}
-                        max={200000}
+                        min={20000}
+                        max={100000}
                         style={{ marginLeft: 16 }}
                         value={this.state.inputValue}
                         onChange={this.onChange}
@@ -81,7 +83,9 @@ class Filter extends React.Component{
                     title={<span><Icon type="environment-o" /><span>Ubicación</span></span>}
                 >
                     {this.state.list.map((i, index)=>(
-                        <Menu.Item key={index}>{i.name}</Menu.Item>
+                        <Menu.Item key={index} >
+                            <span onClick={()=>this.props.handleSearchLocation(i.name)} style={{width:'100%',display:'block'}}>{i.name}</span>
+                        </Menu.Item>
                     ))}
                 </SubMenu>
 

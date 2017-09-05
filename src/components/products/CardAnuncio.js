@@ -22,14 +22,14 @@ class CardAnuncio extends React.Component {
               <Col span={12}>
                 <div>
                   <h2>{anuncio.titulo}</h2>
-                  <h4>{anuncio.categorias.map(cat=>{
+                  <h4>{anuncio.categorias.map((cat,index)=>{
                       return(
-                        <span>{cat} / </span>
+                        <span key={index}>{cat} / </span>
                       )
                     })}</h4>
-                  <h5>{anuncio.estado.map(es=>{
+                  <h5>{anuncio.estado.map((es,index)=>{
                         return(
-                          <span>{es} / </span>
+                          <span key={index}>{es} / </span>
                         )
                       })}</h5>
                 </div>

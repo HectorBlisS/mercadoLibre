@@ -1,22 +1,24 @@
 import React from 'react';
 import Filter from './Filter';
-import {Layout, Menu, Icon, Breadcrumb, Input} from 'antd';
+import {Layout,Icon, Breadcrumb, Input} from 'antd';
 import './catalogo.css';
 import firebase from '../../api/firebase';
 import CardAnuncio from '../products/CardAnuncio';
 
 const { Header, Footer, Sider, Content } = Layout;
-const SubMenu = Menu.SubMenu;
-const Search = Input.Search;
 
 class AdList extends React.Component{
 
     state = {
         collapsed: false,
-        anuncios:[]
+        anuncios:[],
+        search:"",
+        results:[],
+        searching: false,
+        count: 0
     };
+
     onCollapse = (collapsed) => {
-        console.log(collapsed);
         this.setState({ collapsed });
     }
 
@@ -27,9 +29,40 @@ class AdList extends React.Component{
             nuevo['key']=r.key
             anuncios.push(nuevo)
             this.setState({anuncios})
-            //firebase.storage().ref().child('product_images/'+r.key).getDownloadURL()
+            this.setState({results:anuncios})
+
         })
-        console.log(this.state.anuncios)
+    }
+
+    handleSearch = (e)=>{
+        this.setState({search:e.target.value});
+        let updateList = this.state.anuncios;
+        updateList = updateList.filter(function (item) {
+            return item.titulo.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+        });
+        this.setState({results:updateList})
+    }
+
+    handleSearchSlider = (value) => {
+
+        let updateList;
+        this.state.results.length > 0 && this.state.count==0 ? updateList = this.state.results : updateList = this.state.anuncios;
+        this.setState({count:this.state.count+=1})
+        updateList = updateList.filter(function (item) {
+            return item.precio <= value;
+        });
+        this.setState({results:updateList})
+
+    }
+
+    handleSearchLocation = (estado) => {
+        let updateList = this.state.anuncios;
+        if (estado !== "Todos"){
+            updateList = updateList.filter(function (item) {
+                return item.estado[1].search(estado) !== -1;
+            });
+        }
+        this.setState({results:updateList})
     }
 
 
@@ -43,14 +76,18 @@ class AdList extends React.Component{
                     className="filter"
                     style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
                 >
-                    <Filter/>
+                    <Filter handleSearchSlider={this.handleSearchSlider} handleSearchLocation={this.handleSearchLocation}/>
                 </Sider>
                 <Layout style={{ marginLeft: this.state.collapsed ? 100:200 }}>
                     <Header style={{ background: '#fff', padding: 0 }}>
-                        <Search
+                        <Input
                             placeholder="Buscar"
+                            value={this.state.search}
                             style={{ width: '30%' , display: 'block', margin: '0 auto'}}
-                            onSearch={value => console.log(value)}
+                            suffix={this.state.searching ? <Icon type="loading" /> : <Icon type="search" />}
+                            disabled={this.state.searching}
+                            size="large"
+                            onChange={this.handleSearch}
                         />
                     </Header>
 
@@ -60,7 +97,7 @@ class AdList extends React.Component{
                             <Breadcrumb.Item>Estado</Breadcrumb.Item>
                         </Breadcrumb>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            {this.state.anuncios.map((anuncio,index)=>{
+                            {this.state.results.map((anuncio,index)=>{
                                 return(
 
                                     <CardAnuncio anuncio={anuncio} match={this.props.match} key={index}/>
