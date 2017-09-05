@@ -1,0 +1,46 @@
+.footer{
+	width: 100%;
+	height: auto;
+	border-top:1px solid #058789;
+}
+.flexi{
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 30px;
+}
+.box{
+	width: 300px;
+	flex-grow: 1;
+	text-align: center;
+}
+.red{
+	margin: 0 3px;
+}
+.raya{
+	background-color: #dad8d6;
+	height: 1px;
+	border:none;
+	width: 100%;
+
+}
+.fl{
+	display: flex;
+	justify-content: space-between;
+
+}
+.fl p{
+	margin-left: 10px;
+}
+
+.borde{
+	border-right: 1px solid #878787;
+	margin: 10px 10px;
+	padding-right: 10px;
+}
+.accion{
+	margin-top: 5px;
+	margin-right: 30px;
+	background-color: #058789;
+	padding: 3px 5px;
+	color:white;
+}
