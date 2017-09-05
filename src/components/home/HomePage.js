@@ -29,7 +29,7 @@ class HomePage extends Component{
                     <div><img src={c2} alt="portada"/></div>
                 </Carousel>
                 <Buscador />
-                <Ofertas />
+                
 
                 <Categories/>
 
