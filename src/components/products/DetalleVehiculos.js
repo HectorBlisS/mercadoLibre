@@ -89,7 +89,8 @@ class DetalleVehiculos extends Component{
           marca:'',
           modelo:'',
           ano:'',
-          km:''
+          km:'',
+          condicion:''
       },
       marcas:marcas,
         anuncio:null,
@@ -125,6 +126,14 @@ class DetalleVehiculos extends Component{
     this.setState({isCar});
     this.validateEmpty();
   };
+
+    handleCondition = (value) => {
+        let field = 'condicion';
+        let isCar = this.state.isCar;
+        isCar[field] = value;
+        this.setState({isCar});
+        this.validateEmpty();
+    };
 
   handleMarca = (value, e) => {
     this.setState({search:value});
@@ -209,11 +218,25 @@ class DetalleVehiculos extends Component{
           <Option value="Automática">Automática</Option>
 
       </Select>
+
+      <h2>Condición del vehiculo</h2>
+      <Select
+          value={isCar.condicion}
+          name="transmisión"
+          style={{width:'50%'}}
+          placeholder="Estados del Vehiculo"
+          size='large'
+          onChange={this.handleCondition}>
+          <Option value="Usado">Usado</Option>
+          <Option value="Nuevo">Nuevo</Option>
+
+      </Select>
+
       <h2>Marca</h2>
       <Select
       style={{width:'50%'}}
        mode="combobox"
-       value={this.state.search?this.state.search:isCar.marca}
+       value={this.state.search?this.state.search:this.state.isCar.marca}
        placeholder='Marca'
        notFoundContent=""
        defaultActiveFirstOption={false}

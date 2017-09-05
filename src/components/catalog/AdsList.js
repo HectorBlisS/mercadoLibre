@@ -65,6 +65,12 @@ class AdList extends React.Component{
         this.setState({results:updateList})
     }
 
+    limpiar = () => {
+        this.setState({
+            results:this.state.anuncios
+        })
+    }
+
 
     render() {
         return (
@@ -76,7 +82,7 @@ class AdList extends React.Component{
                     className="filter"
                     style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
                 >
-                    <Filter handleSearchSlider={this.handleSearchSlider} handleSearchLocation={this.handleSearchLocation}/>
+                    <Filter handleSearchSlider={this.handleSearchSlider} handleSearchLocation={this.handleSearchLocation} limpiar={this.limpiar}/>
                 </Sider>
                 <Layout style={{ marginLeft: this.state.collapsed ? 100:200 }}>
                     <Header style={{ background: '#fff', padding: 0 }}>

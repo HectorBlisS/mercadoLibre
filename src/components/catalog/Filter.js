@@ -8,7 +8,7 @@ class Filter extends React.Component{
     state={
         list: [
             {"id":"all",'name': 'Todos'},
-            {"id":"MX-AGU",'name': 'Aguacalientes'},
+            {"id":"MX-AGU",'name': 'Aguascalientes'},
             {"id":"MX-BCN",'name': 'Baja California Norte'},
             {"id":"MX-BCS",'name': 'Baja California Sur'},
             {"id":"MX-CAM",'name': 'Campeche'},
@@ -90,8 +90,8 @@ class Filter extends React.Component{
                 </SubMenu>
 
                 <Menu.Item key={this.state.list.length-1}>
-                    <Icon type="car" />
-                    <span>Envio</span>
+                    <Icon type="close-circle-o" />
+                    <span style={{width:'100%',display:'inlineBlock'}} onClick={this.props.limpiar}>Limpiar Filtros</span>
                 </Menu.Item>
 
             </Menu>
