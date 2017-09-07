@@ -2,7 +2,6 @@ import React from 'react';
 import { Steps, Button, message,Icon } from 'antd';
 import './checkout.css';
 import DataForm from './DataForm';
-import Resumen from '../products/Resumen';
 import ProductDetail from '../products/ProductDetail';
 import FormPay from './FormPay';
 import Login from '../login/theLogin';
@@ -54,9 +53,15 @@ class Checkout extends React.Component{
             current: 0,
             steps: s,
             anuncio: prod,
-            user: {}
+            user: {},
+            client: {}
 
         }
+    }
+
+    handleClientInfo = (info) => {
+        const userProducts = firebase.database().ref('users/'+this.state.user+'/citas');
+        return userProducts.child(info).set(true);
     }
 
     componentWillMount(){
@@ -71,7 +76,7 @@ class Checkout extends React.Component{
                 firebase.database().ref('users/'+user.uid)
                     .on('value', r=>{
                         if(r.val() !== null) this.setState({user:r.val()});
-                        //console.log(r.val());
+                        console.log(r.val());
 
                     })
                 this.next();

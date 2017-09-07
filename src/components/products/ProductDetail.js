@@ -25,57 +25,57 @@ class ProductDetail extends Component{
   }
 
 
+  getInfoFromFirebase =(id)=>{
+      //traemos el anuncio
+      firebase.database().ref('productos/' + id)
+          .on('value', (snap)=>{
+              let anuncio = snap.val();
+              anuncio['key'] = snap.key;
+              this.setState({anuncio, laFoto:snap.val().fotos[0]});
+              //console.log(this.state);
+
+              //obtenemos los datos del anunciante:
+              firebase.database().ref('users/'+snap.val().user)
+                  .on('value', s=>{
+                      this.setState({owner:s.val(), loading:false});
+
+                  });
+
+              //traemos los comentarios con un onChild
+              firebase.database().ref('preguntas')
+                  .orderByChild("anuncio")
+                  .equalTo(id)
+                  .on('child_added', s=>{
+                      let pregunta = s.val();
+                      pregunta['key'] = s.key;
+                      const preguntas = this.state.preguntas;
+                      firebase.database().ref('users/' + pregunta.sender)
+                          .on('value', s=>{
+                              pregunta['sender'] = s.val();
+                              preguntas.push(pregunta);
+                              this.setState({preguntas});
+                              console.log(pregunta);
+                          });
+                  });
+
+          });
+  }
+
+
   componentWillMount(){
 
 
-    //traemos el anuncio
-    firebase.database().ref('productos/' + this.props.match.params.productId)
-    .on('value', (snap)=>{
-      let anuncio = snap.val();
-      anuncio['key'] = snap.key;
-      this.setState({anuncio, laFoto:snap.val().fotos[0]});
-      //console.log(this.state);
+    if(this.props.match){
+      console.log("ruta")
 
-      //obtenemos los datos del anunciante:
-        firebase.database().ref('users/'+snap.val().user)
-            .on('value', s=>{
-              this.setState({owner:s.val(), loading:false});
-
-            });
-
-        //traemos los comentarios con un onChild
-        firebase.database().ref('preguntas')
-            .orderByChild("anuncio")
-            .equalTo(this.props.match.params.productId)
-            .on('child_added', s=>{
-              let pregunta = s.val();
-              pregunta['key'] = s.key;
-              const preguntas = this.state.preguntas;
-              firebase.database().ref('users/' + pregunta.sender)
-                  .on('value', s=>{
-                    pregunta['sender'] = s.val();
-                      preguntas.push(pregunta);
-                    this.setState({preguntas});
-                    console.log(pregunta);
-                  });
-            });
-
-    });
+        this.getInfoFromFirebase(this.props.match.params.productId)
 
 
-   if(typeof this.props.productId === undefined){
-     firebase.database().ref('productos/' + this.props.match.params.productId)
-         .on('value', (snap)=>{
-           this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
-           console.log(this.state)
-         })
-   }else{
-     firebase.database().ref('productos/' + this.props.productId)
-         .on('value', (snap)=>{
-           this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
-           console.log(this.state)
-         })
-   }
+    }else{
+
+        this.getInfoFromFirebase(this.props.productId)
+    }
+
 
 
   }

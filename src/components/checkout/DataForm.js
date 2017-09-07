@@ -10,7 +10,7 @@ class DataForm extends React.Component {
     };
     handleSubmit = (e) => {
         e.preventDefault();
-
+        this.props.handleClientInfo(this.state.userInfo);
     }
 
     handleChange = (e) =>{
