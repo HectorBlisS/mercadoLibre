@@ -1,7 +1,7 @@
 import React, {Component} from 'react';import { Avatar } from 'antd';
 import {Link} from 'react-router-dom';
 //import logo from '../../logo.svg';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Icon } from 'antd';
 import firebase from '../../api/firebase';
 
 
@@ -72,6 +72,12 @@ class NavBar extends Component{
 
           }
 
+          <Link
+              style={{color:'white'}}
+              className="nav-item" to="/anuncios">
+              Explorar Anuncios
+          </Link>
+
              <Link to="/nuevo"
                 style={{color:'white', textDecoration:'none'}}
                 className="nav-item-red">
@@ -79,8 +85,6 @@ class NavBar extends Component{
                    ¡Publica Gratis!
 
              </Link>
-
-
 
            {user &&
               <div

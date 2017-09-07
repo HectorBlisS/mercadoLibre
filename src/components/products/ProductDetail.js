@@ -20,11 +20,20 @@ class ProductDetail extends Component{
 
 
   componentWillMount(){
-    firebase.database().ref('productos/' + this.props.match.params.productId)
-    .on('value', (snap)=>{
-      this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
-      console.log(this.state)
-    })
+    if(typeof this.props.productId === undefined){
+      firebase.database().ref('productos/' + this.props.match.params.productId)
+          .on('value', (snap)=>{
+            this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
+            console.log(this.state)
+          })
+    }else{
+      firebase.database().ref('productos/' + this.props.productId)
+          .on('value', (snap)=>{
+            this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
+            console.log(this.state)
+          })
+    }
+
   }
 
   sendMessage=()=>{

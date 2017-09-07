@@ -8,7 +8,7 @@ class Mapa extends React.Component{
 
     state = {
         list: [
-            {"id":"MX-AGU",'name': 'Aguacalientes'},
+            {"id":"MX-AGU",'name': 'Aguascalientes'},
             {"id":"MX-BCN",'name': 'Baja California Norte'},
             {"id":"MX-BCS",'name': 'Baja California Sur'},
             {"id":"MX-CAM",'name': 'Campeche'},

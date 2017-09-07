@@ -11,13 +11,18 @@ const FormItem = Form.Item;
 class Login extends Component {
 
     state = {
-        loading:false
+        loading:false,
+        location:""
     };
 
     componentWillMount(){
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user){
-            this.props.history.push('/');
+        let location = (typeof this.props.match === undefined) ? "ruta": "checkout";
+        this.setState({location})
+        if(location === "ruta"){
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                this.props.history.push('/');
+            }
         }
     }
 
@@ -52,7 +57,11 @@ class Login extends Component {
                 // this.setState({loading:false});
                 message.success("Bienvenido " + r.user.displayName);
                // console.log(localStorage.getItem("user"));
-                this.props.history.push('/perfil');
+                if(this.state.location === "ruta") this.props.history.push('/perfil');
+
+                //solo se ejecuta esta sección si el login es desde el checkout
+
+
             })
             .catch(e=>{
                 this.setState({loading:false});

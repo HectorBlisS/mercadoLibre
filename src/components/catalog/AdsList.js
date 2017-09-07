@@ -1,6 +1,6 @@
 import React from 'react';
 import Filter from './Filter';
-import {Layout,Icon, Breadcrumb, Input} from 'antd';
+import {Layout,Icon, Breadcrumb, Input, message} from 'antd';
 import './catalogo.css';
 import firebase from '../../api/firebase';
 import CardAnuncio from '../products/CardAnuncio';

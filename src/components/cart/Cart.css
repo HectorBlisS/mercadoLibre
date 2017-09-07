@@ -1,0 +1,143 @@
+.carrito h2{
+    margin: 0;
+}
+#cd-cart{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 9991;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s;
+}
+#cd-cart.activated{
+    visibility: visible;
+    opacity: 1;
+}
+.carrito .close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1rem;
+}
+.carrito .closeitem{
+    position: absolute;
+    right: 2%;
+    font-size: 2rem;
+}
+.carrito .row{
+    margin: 0;
+    padding-bottom: 5%;
+    border-bottom: 1px solid #e5e5e5;
+}
+.carrito .cartin{
+    background-color: #fff;
+    width: 30%;
+    position: fixed;
+    height: 100vh;
+    padding:1.5%;
+    left: 100%;
+    z-index: 9993;
+    transition: all 1s;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+}
+.carrito .cartin.activated{
+    left: 70%;
+}
+
+.carrito .items{
+    max-width: 100%;
+    max-height: 75%;
+    overflow-y: scroll;
+    position: relative;
+}
+.carrito .items::-webkit-scrollbar {
+    display: none;
+}
+.carrito .items .empty{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.7em;
+    background-color: #1e73be;
+    color: white;
+    padding: 0 5%;
+    text-align: center;
+    border-radius: 3px;
+}
+.carrito .trash{
+    font-size: 2rem;
+}
+.carrito .checkout{
+    margin-top: 2%;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.carrito .checkout a:hover{
+    text-decoration: none;
+}
+.carrito .itemimg{
+    max-height: 10vh;
+}
+.carrito .titleitem{
+    position: relative;
+}
+
+.carrito .listitem{
+    max-height: 10vh;
+    min-height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+.carrito .divitem{
+    width: 90%;
+
+}
+.carrito .overlay{
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0,0,0,.5);
+    left: 0;
+    height: 100vh;
+    z-index: 9992;
+}
+.carrito-container{
+    position: relative;
+    height: 100%;
+}
+.carrito .checkout .total{
+    padding: 5%;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-between;
+}
+.carrito .checkout .clean{
+    display: block;
+    margin: 3% auto 0 auto;
+    border-radius: 5px;
+    background-color: #fb8c00;
+    color: white;
+    border: none;
+    padding: .5% 5%;
+}
+
+@media (max-width: 800px) {
+    .carrito .cartin{
+        width: 50%;
+    }
+    .carrito .cartin.activated{
+        left: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .carrito .cartin{
+        width: 80%;
+    }
+    .carrito .cartin.activated{
+        left: 20%;
+    }
+}

@@ -74,7 +74,7 @@ const estados = [{
 
 const categorias = [{
   //1st category
-  value: 'Vehículos',
+  value: 'vehiculos',
   label: 'Vehículos',
   children: [{
     value: 'Moto',
