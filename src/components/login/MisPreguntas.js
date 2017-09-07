@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import firebase from '../../api/firebase';
 import {Card, Avatar, Button, Modal} from 'antd'
+import { Input } from 'antd';
+const { TextArea } = Input;
+
 
 class MisPreguntas extends Component{
 
@@ -8,7 +11,8 @@ class MisPreguntas extends Component{
       preguntas:[],
         loading:true,
         answerModal:false,
-        pregunta:{sender:{}}
+        pregunta:{sender:{}},
+        response:''
     };
 
     componentWillMount(){
@@ -55,9 +59,23 @@ class MisPreguntas extends Component{
         });
     };
 
-    responder = () => {
-
+    textArea = (e) => {
+        const response = e.target.value;
+        this.setState({response});
     };
+
+    responder = () => {
+        let pregunta = this.state.pregunta;
+        let response = this.state.response;
+        pregunta['answer'] = response;
+        pregunta['read'] = true;
+        pregunta['sender'] = pregunta.sender.key;
+        pregunta["anuncio"] = pregunta.anuncio.key;
+        firebase.database().ref("preguntas/" + pregunta.key)
+            .set(pregunta);
+        this.setState({answerModal:false});
+    };
+
 
 
     render(){
@@ -93,9 +111,9 @@ class MisPreguntas extends Component{
                     cancelText="Cancelar"
                     onCancel={this.handleCancel}
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <TextArea
+                        onChange={this.textArea}
+                        rows={4} />
                 </Modal>
 
             </div>
