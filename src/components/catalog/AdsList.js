@@ -67,7 +67,8 @@ class AdList extends React.Component{
 
     limpiar = () => {
         this.setState({
-            results:this.state.anuncios
+            results:this.state.anuncios,
+
         })
     }
 

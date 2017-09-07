@@ -6,6 +6,7 @@ import Resumen from '../products/Resumen';
 import ProductDetail from '../products/ProductDetail';
 import FormPay from './FormPay';
 import Login from '../login/theLogin';
+import firebase from '../../api/firebase';
 
 const Step = Steps.Step;
 
@@ -52,7 +53,8 @@ class Checkout extends React.Component{
         this.state = {
             current: 0,
             steps: s,
-            anuncio: prod
+            anuncio: prod,
+            user: {}
 
         }
     }
@@ -61,6 +63,24 @@ class Checkout extends React.Component{
 
         const newSteps = this.state.steps;
         newSteps[newSteps.length-1].content = <ProductDetail productId={this.state.anuncio.key} />
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                this.setState({user});
+                //console.log(user);
+                firebase.database().ref('users/'+user.uid)
+                    .on('value', r=>{
+                        if(r.val() !== null) this.setState({user:r.val()});
+                        //console.log(r.val());
+
+                    })
+                this.next();
+            }
+        });
+
+    }
+
+    handleCheckoutLogin = () => {
 
     }
 
@@ -93,7 +113,7 @@ class Checkout extends React.Component{
                     {
                         this.state.current < this.state.steps.length - 1
                         &&
-                        <Button type="primary" onClick={() => this.next()}>Siguiente</Button>
+                        <Button type="primary" onClick={() => this.next()} disabled={this.user}>Siguiente</Button>
                     }
                     {
                         this.state.current === this.state.steps.length - 1
