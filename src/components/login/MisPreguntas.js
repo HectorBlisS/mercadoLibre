@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import firebase from '../../api/firebase';
-import {Card, Avatar, Button, Modal} from 'antd'
+import {Card, Avatar, Button, Modal, message} from 'antd'
 import { Input } from 'antd';
 const { TextArea } = Input;
 
@@ -37,7 +37,33 @@ class MisPreguntas extends Component{
                                     .on('value', s=>{
                                        pregunta['anuncio'] = s.val();
                                        preguntas.push(pregunta);
-                                       this.setState({preguntas, loading:false});
+                                       this.setState({preguntas, loading:false, pregunta});
+                                    });
+
+                                console.log(pregunta);
+                            });
+
+                    });
+
+                firebase.database().ref('preguntas')
+                    .orderByChild("owner")
+                    .equalTo(user.uid)
+                    .on('child_changed', s=>{
+
+                        let preguntas = [];
+                        let pregunta = s.val();
+                        pregunta['key'] = s.key;
+
+                        // sabemos la info del sender
+                        firebase.database().ref('users/' + pregunta.sender)
+                            .on('value', s=>{
+                                pregunta['sender'] = s.val();
+                                // sabemos la info del anuncio
+                                firebase.database().ref('productos/' + pregunta.anuncio)
+                                    .on('value', s=>{
+                                        pregunta['anuncio'] = s.val();
+                                        preguntas.push(pregunta);
+                                        this.setState({preguntas, loading:false, pregunta});
                                     });
 
                                 console.log(pregunta);
@@ -49,6 +75,7 @@ class MisPreguntas extends Component{
     }
 
     handleModal = (pregunta) => {
+        console.log('openmodal:',pregunta);
         this.setState({answerModal:true, pregunta});
     };
 
@@ -65,14 +92,17 @@ class MisPreguntas extends Component{
     };
 
     responder = () => {
-        let pregunta = this.state.pregunta;
-        let response = this.state.response;
-        pregunta['answer'] = response;
-        pregunta['read'] = true;
-        pregunta['sender'] = pregunta.sender.key;
-        pregunta["anuncio"] = pregunta.anuncio.key;
-        firebase.database().ref("preguntas/" + pregunta.key)
-            .set(pregunta);
+
+
+        firebase.database().ref("preguntas/" + this.state.pregunta.key)
+            .on("value", s=>{
+                let p = s.val();
+                p['answer'] = this.state.response;
+                p['read'] = true;
+                firebase.database().ref("preguntas/" + s.key)
+                    .set(p);
+                message.success("Tu respuesta fué enviada");
+            });
         this.setState({answerModal:false});
     };
 
@@ -86,7 +116,7 @@ class MisPreguntas extends Component{
                     <Card
                         key={p.key}
                         loading={this.state.loading}
-                        extra={<Button onClick={()=>this.handleModal(p)}>Responder</Button>}
+                        extra={!p.read?<Button onClick={()=>this.handleModal(p)}>Responder</Button>:null}
                         title={
                         <div style={{padding:10}}>
                             <Avatar src={p.sender.photoURL} />
@@ -98,6 +128,7 @@ class MisPreguntas extends Component{
                         </div>
                     } style={{ width: '50%' }}>
                         <span>{p.message}</span>
+                        <br/>
                         {p.answer}
                     </Card>
                 )}
