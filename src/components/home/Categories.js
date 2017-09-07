@@ -58,8 +58,8 @@ class Categories extends React.Component{
         ]
     }
 
-    displayCategoryItem = (category) => (
-        <Link to="/anuncios/all">
+    displayCategoryItem = (category, i) => (
+        <Link key={i} to="/anuncios/all">
             <div className="Card" key={category.id}>
                 <div className="card-image">
                     <img src={category.img} alt={category.slug} />
@@ -77,24 +77,24 @@ class Categories extends React.Component{
 
                     <div className="col half">
 
-                        {this.state.categories.slice(0,2).map((category)=>(
-                            this.displayCategoryItem(category)
+                        {this.state.categories.slice(0,2).map((category,i)=>(
+                            this.displayCategoryItem(category,i)
                         ))}
 
                     </div>
 
                     <div className="col quarter">
 
-                        {this.state.categories.slice(2,5).map((category)=>(
-                            this.displayCategoryItem(category)
+                        {this.state.categories.slice(2,5).map((category,i)=>(
+                            this.displayCategoryItem(category,i)
                         ))}
 
                     </div>
 
                     <div className="col quarter">
 
-                        {this.state.categories.slice(5).map((category)=>(
-                            this.displayCategoryItem(category)
+                        {this.state.categories.slice(5).map((category,i)=>(
+                            this.displayCategoryItem(category,i)
                         ))}
 
                     </div>

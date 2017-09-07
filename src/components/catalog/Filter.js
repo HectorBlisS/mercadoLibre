@@ -51,6 +51,11 @@ class Filter extends React.Component{
         this.props.handleSearchSlider(value);
     }
 
+    limpiar = () => {
+        this.setState({inputValue:2000})
+        this.props.limpiar();
+    }
+
     render(){
         return(
             <Menu defaultSelectedKeys={['1']} mode="inline">
@@ -91,7 +96,7 @@ class Filter extends React.Component{
 
                 <Menu.Item key={this.state.list.length-1}>
                     <Icon type="close-circle-o" />
-                    <span style={{width:'100%',display:'inlineBlock'}} onClick={this.props.limpiar}>Limpiar Filtros</span>
+                    <span style={{width:'100%',display:'inlineBlock'}} onClick={this.limpiar}>Limpiar Filtros</span>
                 </Menu.Item>
 
             </Menu>

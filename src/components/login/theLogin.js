@@ -11,14 +11,22 @@ const FormItem = Form.Item;
 class Login extends Component {
 
     state = {
-        loading:false
+        loading:false,
+        location: ""
     };
 
     componentWillMount(){
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user){
-            this.props.history.push('/');
+        console.log(this.props.match)
+        let location = this.props.match ? "ruta": "checkout";
+
+        this.setState({location});
+        if(location === "ruta"){
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                this.props.history.push('/');
+            }
         }
+
     }
 
     fireLogin = (pro) => {
@@ -52,7 +60,19 @@ class Login extends Component {
                 // this.setState({loading:false});
                 message.success("Bienvenido " + r.user.displayName);
                // console.log(localStorage.getItem("user"));
-                this.props.history.goBack();
+
+
+
+                //console.log("detonado",this.state);
+                if(this.state.location === "ruta"){
+                    this.props.history.push('/perfil');
+                }else{
+                    this.props.history.goBack();
+                }
+
+                //solo se ejecuta esta sección si el login es desde el checkout
+
+
             })
             .catch(e=>{
                 this.setState({loading:false});

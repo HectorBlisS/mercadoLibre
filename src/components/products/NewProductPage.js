@@ -238,7 +238,6 @@ class NewProductPage extends Component{
 
         <div className="steps-content">
           {this.state.current===0?
-
               <Basicos setFotos={this.setFotos} updateAnuncio={this.updateAnuncio} enable={this.enable} style={styles.stepContainer}  handleImageUpload={this.handleImageUpload}/>
           :
           this.state.current===1?

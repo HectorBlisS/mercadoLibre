@@ -1,0 +1,78 @@
+.categori h2{
+    text-align: center;
+}
+.box_categori{
+    display: flex;
+    flex-wrap: wrap;
+    width:90%;
+   margin: 0 auto;
+}
+.uno{
+    width:500px;
+    flex-grow: 1;
+}
+.dos{
+    width:500px;
+    flex-grow: 1;
+}
+.uno_cuadrado{
+    width:90%;
+    height:300px;
+    margin:30px 5% 15px 5%;
+    overflow: hidden;
+    background-size: cover;
+    background-image: url('https://images.pexels.com/photos/17663/pexels-photo.jpg?w=940&h=650&auto=compress&cs=tinysrgb');
+}
+
+.uno_rect{
+    display: flex;
+}
+.rect_uno{
+    background-size: cover;
+    height:200px;
+    flex-grow: 1;
+    background-image: url('https://images.pexels.com/photos/8639/light-car-inside-black.jpg?w=940&h=650&auto=compress&cs=tinysrgb');
+    width:45%;
+    margin:15px 5% 30px 5%;
+}
+.dos_uno{
+    width:50%;
+}
+.dos_cuadrado{
+    width:90%;
+    height:135px;
+    margin:30px 5%;
+    background-size: cover;
+    background-image: url('https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg?w=940&h=650&auto=compress&cs=tinysrgb');
+}
+.dos_cuadra{
+    width:90%;
+    height:200px;
+    margin:30px 5%;
+    background-size: cover;
+    background-image: url('https://images.pexels.com/photos/373465/pexels-photo-373465.jpeg?h=350&auto=compress&cs=tinysrgb');
+}
+.tres_cuadrado{
+    width:90%;
+    height:530px;
+    margin:30px 5%;
+    background-position: center;
+    background-size: cover;
+    background-image: url('https://images.pexels.com/photos/2242/wall-sport-green-bike.jpg?w=940&h=650&auto=compress&cs=tinysrgb');
+}
+.mascara{
+    background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 70%,rgba(74,74,74,.9));
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    color:white;
+
+    cursor: pointer;
+}
+.mascara img{
+    width:100%;
+    height: 100%;
+}
+
