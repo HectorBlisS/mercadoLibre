@@ -85,6 +85,7 @@ class NewProductPage extends Component{
                this.setState({anuncio});
                message.success("Tu anuncio se ha publicado");
                this.fotosDespues(r);
+               this.props.history.push("/perfil");
            })
            .catch(e=>{
                message.error('algo falló, intentalo de nuevo perro');
