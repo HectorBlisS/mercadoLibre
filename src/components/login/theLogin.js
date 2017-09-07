@@ -52,7 +52,7 @@ class Login extends Component {
                 // this.setState({loading:false});
                 message.success("Bienvenido " + r.user.displayName);
                // console.log(localStorage.getItem("user"));
-                this.props.history.push('/perfil');
+                this.props.history.goBack();
             })
             .catch(e=>{
                 this.setState({loading:false});
