@@ -6,6 +6,8 @@ import Mapa from '../mapa/Mapa';
 import Categories from './Categories';
 import Footer from '../footer/Footer';
 import Buscador from './Buscador';
+import Recientes from './Recientes';
+import Categorias from './Categorias';
 
 const c1 = "https://http2.mlstatic.com/resources/deals/exhibitors_resources/mlm-home-desktop-slider-picture-e50b5a65-79c3-42af-9ab0-14b3618a40e1.jpg";
 
@@ -29,12 +31,12 @@ class HomePage extends Component{
                     <div><img src={c2} alt="portada"/></div>
                 </Carousel>
                 <Buscador />
-                
-
+                <Recientes />
+                <Categorias />
                 <Categories/>
+                <Mapa />
+               <Footer/>
 
-                <Mapa/>
-                <Footer />
 
             </div>
         );
