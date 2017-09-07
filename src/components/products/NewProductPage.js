@@ -88,7 +88,7 @@ class NewProductPage extends Component{
                this.props.history.push("/perfil");
            })
            .catch(e=>{
-               message.error('algo falló, intentalo de nuevo perro');
+               message.error('Algo falló, intentalo de nuevo');
                console.log(e);
            });
        //rama usuario

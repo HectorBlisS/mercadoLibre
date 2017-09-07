@@ -20,7 +20,7 @@ class ProductDetail extends Component{
 
 
   componentWillMount(){
-    if(typeof this.props.productId === undefined){
+    /*if(typeof this.props.productId === undefined){
       firebase.database().ref('productos/' + this.props.match.params.productId)
           .on('value', (snap)=>{
             this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
@@ -32,7 +32,24 @@ class ProductDetail extends Component{
             this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
             console.log(this.state)
           })
+    }*/
+
+    if(this.props.match){
+      console.log("ruta")
+      firebase.database().ref('productos/' + this.props.match.params.productId)
+          .on('value', (snap)=>{
+            this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
+            console.log(this.state)
+          })
+    }else{
+      console.log("checkout")
+      firebase.database().ref('productos/' + this.props.productId)
+          .on('value', (snap)=>{
+            this.setState({anuncio:snap.val(), laFoto:snap.val().fotos[0]})
+            console.log(this.state)
+          })
     }
+
 
   }
 
