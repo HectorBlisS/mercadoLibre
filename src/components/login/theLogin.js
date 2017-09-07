@@ -60,8 +60,15 @@ class Login extends Component {
                 // this.setState({loading:false});
                 message.success("Bienvenido " + r.user.displayName);
                // console.log(localStorage.getItem("user"));
-                console.log("detonado",this.state);
-                if(this.state.location === "ruta") this.props.history.push('/perfil');
+
+
+
+                //console.log("detonado",this.state);
+                if(this.state.location === "ruta"){
+                    this.props.history.push('/perfil');
+                }else{
+                    this.props.history.goBack();
+                }
 
                 //solo se ejecuta esta sección si el login es desde el checkout
 

@@ -5,6 +5,7 @@ import { Row, Col, message } from 'antd';
 import firebase from '../../api/firebase';
 
 import MisProductos from './MisProductos';
+import MisPreguntas from './MisPreguntas';
 
 
 const TabPane = Tabs.TabPane;
@@ -149,7 +150,9 @@ class Perfil extends Component{
         <Tabs 
            defaultActiveKey="2">
             <TabPane tab={<span><Icon type="apple" />Preguntas</span>} key="1">
-             Preguntas
+
+                <MisPreguntas/>
+
             </TabPane>
             <TabPane tab={<span>
              <Icon type="android" />
