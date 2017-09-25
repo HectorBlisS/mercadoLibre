@@ -54,20 +54,18 @@ class Checkout extends React.Component{
             steps: s,
             anuncio: prod,
             user: {},
-            client: {}
+            client: {},
+            categoria: prod.categorias[0]
 
         }
-    }
-
-    handleClientInfo = (info) => {
-        const userProducts = firebase.database().ref('users/'+this.state.user+'/citas');
-        return userProducts.child(info).set(true);
     }
 
     componentWillMount(){
 
         const newSteps = this.state.steps;
         newSteps[newSteps.length-1].content = <ProductDetail productId={this.state.anuncio.key} />
+
+        if(this.state.categoria === "vehiculos") newSteps[newSteps.length-2].content = <DataForm handleClientInfo={this.handleClientInfo}/>
 
         firebase.auth().onAuthStateChanged((user) => {
             if(user){
@@ -85,8 +83,15 @@ class Checkout extends React.Component{
 
     }
 
-    handleCheckoutLogin = () => {
+    handleFinalSubmit = () => {
 
+        let cita = this.state.client;
+        console.log("cita ", cita);
+        cita["customer"] = this.state.user.uid;
+        cita["owner"] = "David";
+
+        firebase.database().ref("/citas").push(cita)
+        //console.log(this.state.user);
     }
 
     next() {
@@ -100,8 +105,8 @@ class Checkout extends React.Component{
 
     handleClientInfo = (info) => {
 
-        this.setState({clientInfo:info})
-        message.success("Tus datos se agregaron con éxito")
+        this.setState({client:info});
+        message.success("Tus datos se agregaron con éxito");
 
     }
 
@@ -123,7 +128,7 @@ class Checkout extends React.Component{
                     {
                         this.state.current === this.state.steps.length - 1
                         &&
-                        <Button type="primary" onClick={() => message.success('Processing complete!')}>Comprar</Button>
+                        <Button type="primary" onClick={this.handleFinalSubmit}>Comprar</Button>
                     }
                     {
                         this.state.current > 0

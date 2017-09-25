@@ -1,28 +1,47 @@
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Select, Checkbox, Button, DatePicker, TimePicker } from 'antd';
+
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 
 class DataForm extends React.Component {
     state = {
-        userInfo:{}
+        user:{}
     };
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.handleClientInfo(this.state.userInfo);
+        this.props.handleClientInfo(this.state.user);
     }
 
     handleChange = (e) =>{
-        let user = this.state.userInfo;
+        let user = this.state.user;
         let field = e.target.name;
         user[field] = e.target.value;
         this.setState({user})
         console.log(this.state)
     }
 
+    handleHour = (a,b) => {
+        let user = this.state.user;
+        user["hora"] = b;
+        this.setState({user});
+
+    }
+
     handleLada = (value) => {
         console.log(value)
+    }
+
+    handleDate = (a,b) => {
+        let user = this.state.user;
+        let fecha = JSON.stringify(new Date(a));
+
+        user["date"] = fecha;
+        this.setState({user});
+
     }
 
     render() {
@@ -69,9 +88,9 @@ class DataForm extends React.Component {
                 >
                     {getFieldDecorator('email', {
                         rules: [{
-                            type: 'email', message: 'The input is not valid E-mail!',
+                            type: 'email', message: 'No es un E-mail valido!',
                         }, {
-                            required: true, message: 'Please input your E-mail!',
+                            required: true, message: 'Por favor escribe tu E-mail!',
                         }],
                     })(
                         <Input name="email" onChange={this.handleChange}/>
@@ -107,6 +126,30 @@ class DataForm extends React.Component {
                     })(
                         <Input addonBefore={prefixSelector} style={{ width: '100%' }} name="number" onChange={this.handleChange}/>
                     )}
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="Selecciona la hora de la cita"
+                >
+                    {getFieldDecorator('time', {
+                        rules: [{ required: true, message: 'Por favor ingresa la hora del encuentro!' }],
+                    })(
+                        <TimePicker onChange={this.handleHour} use12Hours format="h:mm a" style={{width:"21%"}}/>
+                    )}
+
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="Selecciona la fecha de la cita"
+                >
+                    {getFieldDecorator('date', {
+                        rules: [{ required: true, message: 'Por favor ingresa el día del Encuentro!' }],
+                    })(
+                        <DatePicker onChange={this.handleDate}/>
+                    )}
+
                 </FormItem>
 
 
