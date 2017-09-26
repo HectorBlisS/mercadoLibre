@@ -1,13 +1,18 @@
 import React from 'react';
 import Filter from './Filter';
-import {Layout,Icon, Breadcrumb, Input, message} from 'antd';
+import {Layout,Icon, Breadcrumb, Input} from 'antd';
 import './catalogo.css';
-import firebase from '../../api/firebase';
 import CardAnuncio from '../products/CardAnuncio';
+
+import {connect} from 'react-redux';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 class AdList extends React.Component{
+
+    constructor(props){
+        super(props);
+    }
 
     state = {
         collapsed: false,
@@ -23,15 +28,7 @@ class AdList extends React.Component{
     }
 
     componentWillMount(){
-        firebase.database().ref('productos').on('child_added', r=>{
-            let anuncios=this.state.anuncios
-            let nuevo = r.val()
-            nuevo['key']=r.key
-            anuncios.push(nuevo)
-            this.setState({anuncios})
-            this.setState({results:anuncios})
 
-        })
     }
 
     handleSearch = (e)=>{
@@ -104,7 +101,7 @@ class AdList extends React.Component{
                             <Breadcrumb.Item>Estado</Breadcrumb.Item>
                         </Breadcrumb>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            {this.state.results.map((anuncio,index)=>{
+                            {this.props.anuncios.map((anuncio,index)=>{
                                 return(
 
                                     <CardAnuncio anuncio={anuncio} match={this.props.match} key={index}/>
@@ -123,4 +120,10 @@ class AdList extends React.Component{
 
 }
 
-export default AdList;
+function mapStateToProps(state, ownProps) {
+    return {
+        anuncios: state.anuncios
+    }
+}
+
+export default connect(mapStateToProps)(AdList);
