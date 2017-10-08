@@ -2,7 +2,12 @@ import React, {Component} from 'react';
 import firebase from '../../api/firebase';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { Card, message } from 'antd';
+import * as userActions from '../../actions/userActions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import "./login.css";
+
 
 
 
@@ -16,68 +21,46 @@ class Login extends Component {
     };
 
     componentWillMount(){
-        console.log(this.props.match)
-        let location = this.props.match ? "ruta": "checkout";
-
-        this.setState({location});
-        if(location === "ruta"){
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user) {
-                this.props.history.push('/');
-            }
+        const user = JSON.parse(localStorage.getItem('user'));
+        console.log(user);
+        if(user){
+            console.log('yo pusheo');
+            this.props.history.push('/perfil');
         }
+
+
+        //console.log(this.props.match)
+        // let location = this.props.match ? "ruta": "checkout";
+        //
+        // this.setState({location});
+        // if(location === "ruta"){
+        //     const user = JSON.parse(localStorage.getItem('user'));
+        //     if (user) {
+        //         this.props.history.push('/');
+        //     }
+        // }
+
+    }
+
+    componentWillReceiveProps(nP){
+        console.log(nP.user);
+        if(nP.fetched){
+            message.success("Bienvenido", nP.user.displayName);
+            console.log('yo pusheo mijo: ');
+            this.props.history.push('/perfil');
+        }
+
 
     }
 
     fireLogin = (pro) => {
-        console.log(pro)
+        //console.log(pro);
         this.setState({loading:true});
         let provider;
         pro === 'google' ? provider = new firebase.auth.GoogleAuthProvider() : provider = new firebase.auth.FacebookAuthProvider()
         firebase.auth().signInWithPopup(provider)
-            .then(r => {
-                const perfil = firebase.database().ref("users/" + r.user.uid);
-                perfil
-                    .on('value', (s)=>{
-                       if(s.val()){
-                           console.log('already exists')
-                       }else{
-                           //console.log(r.user);
-                            perfil.set({
-                                displayName:r.user.displayName,
-                                email:r.user.email,
-                                photoURL:r.user.photoURL,
-                                tel:'',
-                                uid:r.user.uid
-                            })
-                       }
-                    });
-
-                //updates['users/' + r.user.uid] = postData;
-               // firebase.database().ref().update(updates);
-                // localStorage.setItem("user", JSON.stringify(result.user));
-                // console.log(result.user.providerData[0]);
-                // this.setState({loading:false});
-                message.success("Bienvenido " + r.user.displayName);
-               // console.log(localStorage.getItem("user"));
-
-
-
-                //console.log("detonado",this.state);
-                if(this.state.location === "ruta"){
-                    this.props.history.push('/perfil');
-                }else{
-                    this.props.history.goBack();
-                }
-
-                //solo se ejecuta esta sección si el login es desde el checkout
-
-
-            })
-            .catch(e=>{
-                this.setState({loading:false});
-                message.error('No se puedo iniciar sesión '+e);
-
+            .then(r=>{
+                this.props.userActions.getCurrentUserInfo(r.user);
             });
 
     };
@@ -141,4 +124,18 @@ class Login extends Component {
     }
 }
 
-export default Login;
+function mapStateToProps(state, ownProps){
+    return {
+        user: state.user,
+        fetched:state.user !== {}
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        userActions: bindActionCreators(userActions, dispatch)
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

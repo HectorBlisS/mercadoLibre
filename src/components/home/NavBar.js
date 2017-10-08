@@ -1,7 +1,7 @@
 import React, {Component} from 'react';import { Avatar } from 'antd';
 import {Link} from 'react-router-dom';
 //import logo from '../../logo.svg';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import firebase from '../../api/firebase';
 
 

@@ -50,14 +50,15 @@ class NewProductPage extends Component{
 
         fotos.map(foto=> {
 
-            storage.child(foto.name).put(foto.originFileObj)
+            return storage.child(foto.name).put(foto.originFileObj)
                 .then(r => {
                     console.log(r.downloadURL);
                     anuncio['fotos'].push(r.downloadURL);
                     //this.setState({anuncio});
-                    api.putProduct(key, anuncio)
+                    return api.putProduct(key, anuncio)
                         .then(r=>{
                             console.log('foto subida: ');
+                            return true;
                         });
                 })
                 .catch(e=>{

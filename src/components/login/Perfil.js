@@ -4,8 +4,11 @@ import { Input, Card, Button } from 'antd';
 import { Row, Col, message } from 'antd';
 import firebase from '../../api/firebase';
 
-import MisProductos from './MisProductos';
+import {MisAnuncios} from "./MisAnuncios";
 import MisPreguntas from './MisPreguntas';
+
+//redux
+import {connect} from 'react-redux';
 
 
 const TabPane = Tabs.TabPane;
@@ -147,7 +150,8 @@ class Perfil extends Component{
 
             
           
-        <Tabs 
+        <Tabs
+            style={{cursor:'pointer'}}
            defaultActiveKey="2">
             <TabPane tab={<span><Icon type="apple" />Preguntas</span>} key="1">
 
@@ -163,7 +167,7 @@ class Perfil extends Component{
              </span>} key="2">
 
 
-                             <MisProductos user={this.state.user}/>
+                             <MisAnuncios/>
 
             </TabPane>
             
@@ -191,4 +195,14 @@ const styles = {
   }  
 };
 
-export default Perfil;
+function mapStateToProps(state, ownProps){
+    return {
+        user: state.user
+    }
+}
+
+function mapDispatchToProps(dispatch){
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Perfil);

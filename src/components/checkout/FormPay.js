@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Form, Tooltip, Icon, Button, Row, Col, Select} from 'antd';
+import {Input, Form, Tooltip, Icon, Row, Col, Select} from 'antd';
 import './FormPay.css';
 
 const FormItem = Form.Item;

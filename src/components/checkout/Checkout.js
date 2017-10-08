@@ -44,7 +44,7 @@ class Checkout extends React.Component{
         let obj = JSON.parse(localStorage.getItem("details"));
         let prod = obj[Object.keys(obj)[0]].item
 
-        let s = prod.categorias[0] == "vehiculos" ? stepsCar:stepsProduct
+        let s = prod.categorias[0] === "vehiculos" ? stepsCar:stepsProduct
 
         console.log(prod.categorias[0]);
         console.log(prod.categorias[0] === "vehiculos");

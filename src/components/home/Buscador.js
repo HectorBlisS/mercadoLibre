@@ -7,7 +7,7 @@ class Buscador extends Component{
        	<div className='footer'>
        		<div className='dis_flex'>
        			<div className='box_img'>
-              <img src='https://www.segundamano.mx/static/img/smmx-logo.png'/>
+              <img alt="logose" src='https://www.segundamano.mx/static/img/smmx-logo.png'/>
        			</div>
             <div className='box_search'>
               <div className='inp'>

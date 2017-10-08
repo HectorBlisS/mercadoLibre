@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Card from '../card/Card';
-import FontAwesome from 'react-fontawesome';
+//import FontAwesome from 'react-fontawesome';
 
 class Recientes extends Component{
     render(){

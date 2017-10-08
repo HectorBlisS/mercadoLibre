@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Categorias.css';
-import FontAwesome from 'react-fontawesome';
+//import FontAwesome from 'react-fontawesome';
 
 class Categorias extends Component{
     render(){

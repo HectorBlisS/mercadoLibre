@@ -1,6 +1,6 @@
 import React from 'react';
 import Filter from './Filter';
-import {Layout,Icon, Breadcrumb, Input, message} from 'antd';
+import {Layout,Icon, Breadcrumb, Input} from 'antd';
 import './catalogo.css';
 import firebase from '../../api/firebase';
 import CardAnuncio from '../products/CardAnuncio';
@@ -46,8 +46,9 @@ class AdList extends React.Component{
     handleSearchSlider = (value) => {
 
         let updateList;
-        this.state.results.length > 0 && this.state.count==0 ? updateList = this.state.results : updateList = this.state.anuncios;
-        this.setState({count:this.state.count+=1})
+        this.state.results.length > 0 && this.state.count===0 ? updateList = this.state.results : updateList = this.state.anuncios;
+        const count = this.state.count + 1;
+        this.setState({count:count});
         updateList = updateList.filter(function (item) {
             return item.precio <= value;
         });

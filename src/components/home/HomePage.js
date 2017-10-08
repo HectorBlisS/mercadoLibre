@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Carousel } from 'antd';
 import './home.css';
-import Ofertas from './Ofertas';
+//import Ofertas from './Ofertas';
 import Mapa from '../mapa/Mapa';
 import Categories from './Categories';
 import Footer from '../footer/Footer';
