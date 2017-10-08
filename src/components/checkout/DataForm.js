@@ -1,3 +1,7 @@
+import React from 'react';
+
+const DataForm = () => (<div>BlisS</div>);
+export default DataForm;
 // import React from 'react';
 // import { Form, Input, Tooltip, Icon, Select, Checkbox, Button } from 'antd';
 //
