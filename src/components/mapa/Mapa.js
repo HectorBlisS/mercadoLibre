@@ -52,7 +52,6 @@ class Mapa extends React.Component{
         this.overcolor =  "#ff8f00";
         const paths = selectAll("path");
         paths.style("fill", m.initialcolor);
-        console.log(paths);
 
         paths.on('mouseover', function(){
         this.over = this.id;

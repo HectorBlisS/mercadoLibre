@@ -15,4 +15,5 @@ export function configureStore() {
     //sagaMiddleware.run(initSaga);
     rootSaga(sagaMiddleware);
     return store;
+
 }
