@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import {BrowserRouter} from 'react-router-dom';
 import 'antd/dist/antd.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import {configureStore} from "./store/configureStore";
 import {Provider} from 'react-redux';
