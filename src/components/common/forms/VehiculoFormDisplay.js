@@ -24,7 +24,7 @@ export const VehiculoFormDisplay = ({ad, marcas}) => {
                 <FormGroup controlId="descripcion">
                     <ControlLabel>Escribe la descripción de tu anuncio</ControlLabel>
                     <FormControl
-                        style={{height:400}}
+                        style={{height:250}}
                         componentClass="textarea" placeholder="Descripción" />
                 </FormGroup>
 

@@ -7,5 +7,6 @@ function* loadingMarcas(){
 }
 
 export function* formDataSaga(){
-    yield takeLatest("LOAD_MARCAS", loadingMarcas)
+    console.log("form saga corriendo");
+        yield takeLatest("LOAD_MARCAS", loadingMarcas);
 }

@@ -2,7 +2,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {VehiculoFormDisplay} from './VehiculoFormDisplay';
 //import {store} from '../../../index';
-import {loadMarcas} from '../../../actions/formActions';
 
 
 
@@ -34,7 +33,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-    dispatch(loadMarcas());
     return {
         actions: bindActionCreators(dispatch)
     };

@@ -1,4 +1,4 @@
-import { put, take, takeLatest,
+import { put, takeLatest
 //all
 } from 'redux-saga/effects';
 import * as firebaseMethods from '../api/firebase';
@@ -18,12 +18,19 @@ function* fetchUser(action){
     yield put({type:GET_USER_INFO_SUCCESS, user});
 }
 
-export function* initSaga(){
-   //const [{user}] yield all([takeLatest(GET_USER_INFO, fetchUser),]);
-    yield takeLatest(GET_USER_INFO,fetchUser);
-    const {user} = yield take(GET_USER_INFO_SUCCESS);
-    const ads = yield firebaseMethods.fetchUserAds(user);
+function* fetchAds(action){
+    console.log("ads llamado");
+    const ads = yield firebaseMethods.fetchUserAds(action.user);
+    console.log("ads: ",ads);
     yield put({type:GET_USER_ADS_SUCCESS, items:ads});
+}
+
+export function* initSaga(){
+    yield takeLatest(GET_USER_INFO,fetchUser);
+    yield takeLatest(GET_USER_INFO_SUCCESS, fetchAds);
+
+
+
 
 
 }

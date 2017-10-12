@@ -9,6 +9,11 @@ export function userAds(state=[], action){
     switch(action.type){
         case GET_USER_ADS_SUCCESS:
             return action.items;
+
+        case "CERRAR_SESION_SUCCESS":
+            return [];
+
+
         default:
             return state;
     }
@@ -18,6 +23,8 @@ export function userInfoReducer(state = {}, action) {
     switch (action.type) {
         case GET_USER_INFO_SUCCESS:
             return action.user;
+        case "CERRAR_SESION_SUCCESS":
+            return {};
         default:
             return state;
     }

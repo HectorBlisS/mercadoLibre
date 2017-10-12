@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 //import logo from '../../logo.svg';
 import { Menu, Dropdown } from 'antd';
 import firebase from '../../api/firebase';
-
+import {store} from "../../index";
 
 
 import './home.css';
@@ -32,7 +32,7 @@ class NavBar extends Component{
     firebase.auth().signOut();
     localStorage.removeItem("user");
     this.setState({user:null});
-//    this.props.history.push('/');
+    store.dispatch({type:"CERRAR_SESION_SUCCESS"});
 };
 
     render(){

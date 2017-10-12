@@ -1,4 +1,4 @@
-import {takeLatest} from 'redux-saga/effects';
+import {takeLatest, actionChannel, call} from 'redux-saga/effects';
 import {GET_USER_INFO} from "../actions/userActions";
 import * as firebaseMethods from '../api/firebase';
 
@@ -9,5 +9,9 @@ function* getUserAds({user}){
 }
 
 export function* currenUserSaga(){
-    yield takeLatest(GET_USER_INFO, getUserAds);
+    const requestChan = yield actionChannel(GET_USER_INFO);
+    const {user} = yield takeLatest(requestChan);
+    yield call(getUserAds, user);
+
+
 }

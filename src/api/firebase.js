@@ -86,21 +86,38 @@ export function fetchUserInfo(user){
 }
 
 export function fetchUserAds(user){
-    const userAdsRef = db.collection("anuncios").where("usuario", "==", user.uid);
-    return userAdsRef.get()
+    // const userAdsRef = db.collection("anuncios").where("usuario", "==", user.uid);
+    // return userAdsRef.get()
+    //     .then(s=>{
+    //         const list = [];
+    //         s.forEach(i=>{
+    //            // console.log(i);
+    //             //console.log(i.id);
+    //             //console.log(i.data())
+    //             let item = i.data();
+    //             item['id'] = i.id;
+    //             list.push(item);
+    //         });
+    //         return list;
+    //     })
+    // .catch(e=>console.log(e));
+
+    const anunciosRef = firebase.database().ref("anuncios");
+    return anunciosRef.orderByChild("user").equalTo(user.uid)
+        .once("value")
         .then(s=>{
-            const list = [];
-            s.forEach(i=>{
-               // console.log(i);
-                //console.log(i.id);
-                //console.log(i.data())
-                let item = i.data();
-                item['id'] = i.id;
-                list.push(item);
-            });
-            return list;
+            let lista = [];
+            const obj = s.val();
+            for (let k in obj){
+                let item = obj[k];
+                item["key"] = k;
+                lista.push(item);
+            }
+            console.log(lista);
+            return lista;
         })
-    .catch(e=>console.log(e));
+        .catch(e=>console.log(e));
+
 }
 
 export function fetchMarcas(){

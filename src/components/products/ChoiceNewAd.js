@@ -7,15 +7,22 @@ import {Button} from 'react-bootstrap';
 import {VehiculoForm} from '../common/forms/VehiculoForm';
 //import ProgressBar from '../common/ProgressBar';
 //import Label from '../common/Label';
+import {store} from "../../index";
+import {loadMarcas} from '../../actions/formActions';
 
 export class ChoiceNewAd extends Component {
     state = {
-        selected:false
+        selected:false,
+        store:{}
     };
 
     changeSelected = () => {
-        this.setState({selected:true});
+        //this.setState({selected:true});
+        store.dispatch({type:"LOAD_MARCAS"});
+        console.log("despachado")
     };
+
+
 
     renderChoice = () => (
         <div>

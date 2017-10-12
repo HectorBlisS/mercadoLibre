@@ -12,10 +12,10 @@ import {configureStore} from "./store/configureStore";
 import {Provider} from 'react-redux';
 import { getCurrentUserInfo } from './actions/userActions';
 
-import {loadAds} from './actions/adActions';
+//import {loadAds} from './actions/adActions';
 
 export const store = configureStore();
-store.dispatch(loadAds());
+//store.dispatch(loadAds());
 
 
 const user = JSON.parse(localStorage.getItem("user"));
