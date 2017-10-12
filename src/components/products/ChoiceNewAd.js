@@ -5,6 +5,8 @@ import React, {Component} from 'react';
 import {Route, Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
 import {VehiculoForm} from '../common/forms/VehiculoForm';
+//import ProgressBar from '../common/ProgressBar';
+//import Label from '../common/Label';
 
 export class ChoiceNewAd extends Component {
     state = {
@@ -18,7 +20,6 @@ export class ChoiceNewAd extends Component {
     renderChoice = () => (
         <div>
             <h2 style={{margin:'0 auto', width:'320px'}}>¿Que vas a anunciar?</h2>
-
             <div style={styles.container}>
 
                 <div>
@@ -35,7 +36,23 @@ export class ChoiceNewAd extends Component {
                             style={styles.bigButton}
                             onClick={this.changeSelected}
                         >
-                            Automovil, moto o camioneta
+                            Productos y otros
+                        </Button>
+                    </Link>
+                    <Link to="/nuevo/vehiculo/lol">
+                        <Button
+                            style={styles.bigButton}
+                            onClick={this.changeSelected}
+                        >
+                            Inmuebles
+                        </Button>
+                    </Link>
+                    <Link to="/nuevo/vehiculo/lol">
+                        <Button
+                            style={styles.bigButton}
+                            onClick={this.changeSelected}
+                        >
+                            Servicios
                         </Button>
                     </Link>
                 </div>
@@ -45,7 +62,7 @@ export class ChoiceNewAd extends Component {
     );
 
     render() {
-        const {selected} = this.state;
+        //const {selected} = this.state;
         return (
 
             <div style={styles.formContainer}>
@@ -62,7 +79,7 @@ export class ChoiceNewAd extends Component {
 
 const styles = {
     container:{
-        //textAlign:'center',
+        textAlign:'center',
         flexDirection:'row',
         display:'flex',
         //flexWrap:'wrap',
@@ -72,9 +89,9 @@ const styles = {
     },
   bigButton:{
       width:"auto",
-      minWidth:"320px",
+      minWidth:"350px",
       height:'auto',
-      minHeight:"320px",
+      minHeight:"120px",
       flex:1,
       padding:'20px'
   },

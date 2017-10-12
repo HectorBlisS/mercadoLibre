@@ -1,0 +1,6 @@
+.marca{
+    display: flex;
+    flex-wrap: wrap;
+}
+.marca .form-group{
+}

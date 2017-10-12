@@ -14,7 +14,7 @@ import { getCurrentUserInfo } from './actions/userActions';
 
 import {loadAds} from './actions/adActions';
 
-const store = configureStore();
+export const store = configureStore();
 store.dispatch(loadAds());
 
 

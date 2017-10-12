@@ -5,3 +5,36 @@
     background: #fff !important;
     color: black !important;
 }
+
+.portada{
+   display: table;
+    width:100%;
+    height:60vh;
+    background-color:red;
+    text-align: center;
+    background-image: url("https://http2.mlstatic.com/resources/frontend/classifieds-homes-premium/motors/0.0.1/mx/heading--xl.jpg");
+    background-size: cover;
+    background-position-x: center;
+}
+
+
+
+.portada h2{
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 500%;
+    color: white;
+
+}
+
+@media(max-width: 600px){
+    .portada h2{
+        font-size: 200%;
+    }
+}
+
+.filtro span{
+    color: gray;
+    font-size: 1.3rem;
+    cursor: pointer;
+}

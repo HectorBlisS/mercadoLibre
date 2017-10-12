@@ -102,3 +102,13 @@ export function fetchUserAds(user){
         })
     .catch(e=>console.log(e));
 }
+
+export function fetchMarcas(){
+    const marcasRef = db.collection("vehiculoForm").doc("vehiculos");
+    return marcasRef.get()
+        .then(s=>{
+            console.log("eldoc: ",s.data().marcas);
+            return s.data().marcas;
+        })
+        .catch(e=>console.log(e));
+}

@@ -22,7 +22,7 @@ export const MisAnunciosDisplay = ({ads, fetched}) => {
 
 //MisAnunciosDisplay.propTypes = {};
 
-const styles = {
-    name: {}
-};
+//const styles = {
+  //  name: {}
+//};
 

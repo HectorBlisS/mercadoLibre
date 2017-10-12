@@ -1,11 +1,5 @@
 import firebase from '../api/firebase';
 
-function createAdSuccess(anuncio) {
-    return {
-        type: 'CREATE_ADD',
-        anuncio
-    }
-}
 
 function loadAdsSuccess(anuncios) {
     return {
@@ -35,7 +29,7 @@ export function loadAds() {
 
 export function createAd(anuncio) {
     return function (dispatch, getState) {
-        const anuncios = getState().anuncios;
+        //const anuncios = getState().anuncios;
         firebase.database.ref().put(anuncio)
             .then(r=>{
                 console.log(r.val());

@@ -1,7 +1,10 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {VehiculoFormDisplay} from './VehiculoFormDisplay';
+//import {store} from '../../../index';
+import {loadMarcas} from '../../../actions/formActions';
+
+
 
 function getAdById(ads, adId){
     const ad = ads.filter(a => a.id === adId);
@@ -9,7 +12,15 @@ function getAdById(ads, adId){
     return null;
 }
 
+function formatMarcas(lista){
+    return lista.map(m=>{
+        return {value:m, name:m[0].toUpperCase() + m.slice(1)}
+    });
+
+}
+
 function mapStateToProps(state, ownProps) {
+    console.log(state);
     console.log(ownProps);
     let newAd = {};
     const adId = ownProps.match.params.adId;
@@ -17,11 +28,13 @@ function mapStateToProps(state, ownProps) {
         newAd = getAdById(state.user.ads, adId);
     }
     return {
-        ad:newAd
+        ad:newAd,
+        marcas:formatMarcas(state.formData.marcas)
     };
 }
 
 function mapDispatchToProps(dispatch) {
+    dispatch(loadMarcas());
     return {
         actions: bindActionCreators(dispatch)
     };
