@@ -121,11 +121,33 @@ export function fetchUserAds(user){
 }
 
 export function fetchMarcas(){
-    const marcasRef = db.collection("vehiculoForm").doc("vehiculos");
-    return marcasRef.get()
+    const marcasRef = firebase.database().ref("marcas");
+    return marcasRef.once("value")
         .then(s=>{
-            console.log("eldoc: ",s.data().marcas);
-            return s.data().marcas;
+            const obj = s.val();
+            console.log("marcas: ", obj);
+            //devolvemos un array:
+            let array = [];
+            for(let k in obj){
+                let item = obj[k];
+                item["key"] = k;
+                array.push(item);
+
+            }
+            return array;
         })
         .catch(e=>console.log(e));
+}
+
+export function uploadSeveralFiles(files){
+    let links = [];
+    const storage = firebase.storage().ref("adFotos");
+    links = files.map(f=>{
+        return storage.child(f.file.name).put(f.file)
+            .then(r=>{
+                return {url:r.downloadURL, name:f.file.name};
+            })
+    });
+    console.log(links);
+    return links;
 }

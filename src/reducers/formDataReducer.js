@@ -9,8 +9,19 @@ function marcasReducer(state=[], action){
     }
 }
 
+function fotosReducer(state=[], action){
+    switch (action.type){
+        case "UPLOAD_FOTOS_SUCCESS":
+            return action.links;
+        default:
+            return state;
+    }
+}
+
+
 export const formDataReducer = combineReducers({
-   marcas: marcasReducer
+   marcas: marcasReducer,
+    fotos: fotosReducer
 });
 
 

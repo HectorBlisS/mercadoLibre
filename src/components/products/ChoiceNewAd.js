@@ -4,11 +4,11 @@
 import React, {Component} from 'react';
 import {Route, Link} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-import {VehiculoForm} from '../common/forms/VehiculoForm';
+import VehiculoForm from '../common/forms/VehiculoForm';
 //import ProgressBar from '../common/ProgressBar';
 //import Label from '../common/Label';
-import {store} from "../../index";
-import {loadMarcas} from '../../actions/formActions';
+//import {store} from "../../index";
+//import {loadMarcas} from '../../actions/formActions';
 
 export class ChoiceNewAd extends Component {
     state = {
@@ -18,7 +18,6 @@ export class ChoiceNewAd extends Component {
 
     changeSelected = () => {
         //this.setState({selected:true});
-        store.dispatch({type:"LOAD_MARCAS"});
         console.log("despachado")
     };
 

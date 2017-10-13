@@ -10,7 +10,7 @@ export const MisAnunciosDisplay = ({ads, fetched}) => {
         <div style={{textAlign:'center'}}>
             {fetched ?
                 <div>
-                    {ads.map(a=><span key={a.id}>{a.titulo}</span>)}
+                    {ads.map((a,index)=><span key={index}>{a.titulo}</span>)}
                 </div>
                 :
                 <Spin/>

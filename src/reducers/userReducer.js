@@ -30,7 +30,17 @@ export function userInfoReducer(state = {}, action) {
     }
 }
 
+export function userImagesReducer(state = [], action){
+    switch (action.type){
+        case "UPLOAD_IMAGE_SUCCESS":
+            return [...state, action.url];
+        default:
+            return state;
+    }
+}
+
 export const userReducer = combineReducers({
     profile: userInfoReducer,
-    ads: userAds
+    ads: userAds,
+    images:  userImagesReducer
 });

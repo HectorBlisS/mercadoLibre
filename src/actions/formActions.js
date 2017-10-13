@@ -4,3 +4,9 @@ export function loadMarcas(){
     }
 }
 
+export function uploadFotos(fotos){
+    return {
+        type: "UPLOAD_FOTOS",
+        fotos
+    }
+}
