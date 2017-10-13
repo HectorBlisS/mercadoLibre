@@ -2,16 +2,24 @@
  * Created by BlisS on 22/03/17.
  */
 import React from 'react';
-import {FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
+import {Alert, FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
 import Uploader from './Uploader';
 import './vehiculoForm.css';
 
-export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, validated=true, onSave, modelos, changeModelos, setModelo}) => {
+function countChar(word, number){
+    if(word !== undefined){
+        if(number - word.length < 0) return "=D";
+        return number - word.length;
+    }
+}
+
+export const VehiculoFormDisplay = ({validateForm, success, errors, ad, marcas, getImages, onChangeText, validated=false, loading=false, onSave, modelos, changeModelos, setModelo}) => {
     return (
         <div>
-            <form onSubmit={onSave} style={styles.form}>
+            <form onBlur={()=>validateForm(false)} onSubmit={onSave} style={styles.form}>
                 <FormGroup
                     controlId="titulo"
+                    validationState={errors.titulo ? "error":success.titulo ? "success":null}
                 >
                     <ControlLabel>Titulo de tu anuncio</ControlLabel>
                     <FormControl
@@ -20,12 +28,16 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         onChange={onChangeText}
                         type="text"
                         placeholder="Ponle un titulo a tu anuncio"
+
                     />
                     <FormControl.Feedback />
-                    <HelpBlock>¡Escoge un titulo que llame la atención!.</HelpBlock>
+                    {errors.titulo && <HelpBlock>{errors.titulo}</HelpBlock>}
+                    <HelpBlock>{countChar(ad.titulo, 20)}</HelpBlock>
                 </FormGroup>
 
-                <FormGroup controlId="descripcion">
+                <FormGroup
+                    validationState={errors.descripcion ? "error":success.descripcion ? "success":null}
+                    controlId="descripcion">
                     <ControlLabel>Escribe la descripción de tu anuncio</ControlLabel>
                     <FormControl
                         name="descripcion"
@@ -33,13 +45,17 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         onChange={onChangeText}
                         style={{height:250}}
                         componentClass="textarea" placeholder="Descripción" />
+                    {errors.descripcion && <HelpBlock>{errors.descripcion}</HelpBlock>}
+                    <HelpBlock>{countChar(ad.descripcion, 140)}</HelpBlock>
                 </FormGroup>
 
 <div className="marca">
 
 
 
-                <FormGroup controlId="formControlsSelect">
+                <FormGroup
+                    validationState={errors.marca ? "error":success.marca ? "success":null}
+                    controlId="formControlsSelect">
                     <ControlLabel>Marca de tu vehiculo</ControlLabel>
                     <FormControl
                         onChange={changeModelos}
@@ -48,9 +64,12 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         <option disabled value={ad.marca} default>{ad.marca}</option>
                         {marcas.map((m,index)=><option key={index} value={m.value}>{m.name}</option>)}
                     </FormControl>
+                    {errors.marca && <HelpBlock>{errors.marca}</HelpBlock>}
                 </FormGroup>
 
-                <FormGroup controlId="formControlsSelect">
+                <FormGroup
+                    validationState={errors.marca ? "error":success.marca ? "success":null}
+                    controlId="formControlsSelect">
                     <ControlLabel>Modelo de tu vehiculo</ControlLabel>
                     <FormControl
                         onChange={setModelo}
@@ -59,9 +78,11 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         <option default disabled value={ad.modelo}>{ad.modelo}</option>
                         {modelos.map((m,index)=><option key={index} value={m.value}>{m.title}</option>)}
                     </FormControl>
+                    {errors.modelo && <HelpBlock>{errors.modelo}</HelpBlock>}
                 </FormGroup>
 
                 <FormGroup
+                    validationState={errors.year ? "error":success.year ? "success":null}
                     controlId="año"
                 >
                     <ControlLabel>Año de tu vehiculo</ControlLabel>
@@ -69,13 +90,14 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         name="year"
                         value={ad.year}
                         onChange={onChangeText}
-                        type="text"
+                        type="number"
                         placeholder="Escribe el año de tu vehículo"
                     />
                     <FormControl.Feedback />
                 </FormGroup>
 
                 <FormGroup
+                    validationState={errors.version ? "error":success.version ? "success":null}
                     controlId="version"
                 >
                     <ControlLabel>Versión de tu vehiculo</ControlLabel>
@@ -87,24 +109,39 @@ export const VehiculoFormDisplay = ({ad, marcas, getImages, onChangeText, valida
                         placeholder="Escribe la versión de tu vehículo"
                     />
                     <FormControl.Feedback />
+                    {errors.version && <HelpBlock>{errors.version}</HelpBlock>}
                 </FormGroup>
 
 
 </div>
 
+                <FormGroup
+                    validationState={errors.fotos ? "error":success.fotos ? "success":null}
+                >
+                    <Uploader
+                        images={ad.fotos}
+                        getImages={getImages}
+                    />
+                    {errors.fotos && <HelpBlock>{errors.fotos}</HelpBlock>}
 
-                <Uploader
-                    images={ad.fotos}
-                    getImages={getImages}
-                />
+                </FormGroup>
+
+
 
                 <Button
                     style={styles.button}
                     bsStyle="success"
-                    disabled={!validated}
+                    disabled={loading}
                     type="submit">
                     Publicar
                 </Button>
+
+            {!validated && <Alert style={{maxWidth:320, margin:"0 auto", textAlign:"center"}} bsStyle="warning">
+                <strong>¡Corrige los errores!</strong> <br/>antes de poder publicar.
+            </Alert>}
+            {validated && <Alert style={{maxWidth:320, margin:"0 auto", textAlign:"center"}} bsStyle="success">
+                    <strong>¡Genial!</strong> <br/>ahora puedes publicar.
+                </Alert>}
 
             </form>
         </div>

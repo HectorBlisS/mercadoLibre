@@ -12,7 +12,10 @@ class VehiculoForm extends Component{
         marcas:[],
         files:[],
         urls:[],
-        modelos:[]
+        modelos:[],
+        validated:false,
+        errors:{},
+        success:{}
     };
 
     componentWillReceiveProps(nP){
@@ -68,11 +71,57 @@ class VehiculoForm extends Component{
         //console.log("soy contenedor",files)
     };
 
+    validateForm = (saveTry=false) => {
+        const ad = this.state.ad;
+
+        let errors={};
+        let success={};
+        //titulo
+        if(ad.titulo !== "" && ad.titulo.length < 20) errors.titulo = "El titulo debe ser mayor a 10 caracteres";
+        if(ad.titulo !== "" && ad.titulo.length > 20) success.titulo = true;
+        if(saveTry && ad.titulo.length < 10) errors.titulo = "El titulo debe ser mayor a 10 caracteres";
+        //descripción
+        if(ad.descripcion !== "" && ad.descripcion.length < 140) errors.descripcion = "La descripción debe contener al menos 140 caracteres";
+        if(ad.descripcion !== "" && ad.descripcion.length > 140) success.descripcion = true;
+        if(saveTry && this.state.ad.descripcion.length < 140) errors.descripcion = "La descripción debe contener al menos 140 caracteres";
+        //marca
+        if(ad.marca !== "" && ad.marca === "") errors.marca = "Selecciona una marca";
+        if(ad.marca !== "" && ad.marca !==  "") success.marca = true;
+        if(saveTry && this.state.ad.marca === "") errors.marca = "Selecciona una marca";
+        //modelo
+        if(ad.modelo !== "" && ad.modelo === "") errors.modelo = "Selecciona un modelo";
+        if(ad.modelo !== "" && ad.modelo !== "") success.modelo = true;
+        if(saveTry && this.state.ad.modelo === "") errors.modelo = "Selecciona un modelo";
+        //year
+        if(ad.year !== "" && ad.year.length < 4) errors.year = "Escribe un año";
+        if(ad.year !== "" && ad.year.length > 3) success.year = true;
+        if(saveTry && this.state.ad.year.length < 4) errors.year = "Escribe un año";
+        //versión
+        if(ad.version !== "" && ad.version === "") errors.version = "Escribe la version de tu vehiculo";
+        if(ad.version !== "" && ad.version !== "") success.version = true;
+        if(saveTry && this.state.ad.version === "") errors.version = "Escribe la version de tu vehiculo";
+        //fotos
+        if(ad.fotos.length === 0) errors.fotos = "Agrega al menos 1 foto";
+        if(saveTry && ad.fotos.length === 0) errors.fotos = "Agrega al menos 1 foto";
+
+
+
+        this.setState({errors, success});
+        if(Object.keys(errors).length === 0) this.setState({validated:true});
+        return Object.keys(errors).length === 0;
+    };
+
     onSave = (e) => {
-     // alert("guardando");
         e.preventDefault();
+        if(!this.validateForm(true)){
+            message.error("Corrige los errores del formulario");
+            return;
+        }
+        this.setState({validated:true});
         this.props.formActions.uploadFotos(this.state.ad.fotos);
-        message.warning("cargando, espera un momento...");
+     // alert("guardando");
+       message.warning("cargando, espera un momento...");
+       message.warning("Ya estamos terminando, espera un momento...");
 
     };
 
@@ -84,12 +133,13 @@ class VehiculoForm extends Component{
     };
 
     render(){
-        const {ad, marcas, files, modelos} = this.state;
+        const {validated, success, errors, ad, marcas, files, modelos} = this.state;
         console.log("Fotos subidas:  ",ad);
         return(
 
             <div>
                 <VehiculoFormDisplay
+                    validated={validated}
                     onChangeText={this.onChangeText}
                     ad={ad}
                     marcas={marcas}
@@ -98,6 +148,9 @@ class VehiculoForm extends Component{
                     onSave={this.onSave}
                     changeModelos={this.changeModelos}
                     setModelo={this.setModelo}
+                    errors={errors}
+                    validateForm={this.validateForm}
+                    success={success}
                 />
             </div>
         );
