@@ -9,7 +9,8 @@ export function userAds(state=[], action){
     switch(action.type){
         case GET_USER_ADS_SUCCESS:
             return action.items;
-
+        case "SAVE_AD_SUCCESS":
+            return [action.ad, ...state];
         case "CERRAR_SESION_SUCCESS":
             return [];
 

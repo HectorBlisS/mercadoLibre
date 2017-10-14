@@ -11,7 +11,7 @@ class Uploader extends React.Component{
     };
 
     componentWillReceiveProps(nP){
-        console.log("recibi");
+        //console.log("recibi");
         this.setState({
             user:nP.user,
             images:nP.images
@@ -22,7 +22,7 @@ class Uploader extends React.Component{
         //if(/\.(jpe?g|png|gif)$/i.test("file.name")) return;
         let archivos = this.state.archivos;
         if(e.target.files.length > 10) return alert("no puedes subir mas de 10 archivos");
-        let reader = new FileReader();
+        //let reader = new FileReader();
         const images = this.state.images;
         const files = e.target.files;
         for(let k in files){
@@ -51,7 +51,7 @@ class Uploader extends React.Component{
 
     render(){
         const {images} = this.state;
-        console.log(this.state.images);
+        //console.log(this.state.images);
         return(
             <div style={styles.flexContainer}>
                 {images.map((i,index)=>{

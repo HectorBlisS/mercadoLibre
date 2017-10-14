@@ -15,14 +15,15 @@ class VehiculoForm extends Component{
         modelos:[],
         validated:false,
         errors:{},
-        success:{}
+        success:{},
+        images:null
     };
 
     componentWillReceiveProps(nP){
         let ad = nP.ad;
-        if(nP.fotosFetched){
-            ad["fotos"] = nP.fotos;
-        }
+        //if(nP.fotosFetched){
+          //  ad["fotos"] = nP.fotos;
+        //}
         this.setState({
             ad:ad,
             marcas:nP.marcas,
@@ -61,7 +62,7 @@ class VehiculoForm extends Component{
     };
 
     getImages = (images) => {
-        let files = this.state.files;
+        //let files = this.state.files;
         let i = images.map(i=>{
             return i.file
         });
@@ -113,28 +114,43 @@ class VehiculoForm extends Component{
 
     onSave = (e) => {
         e.preventDefault();
+
+        let ad  = this.state.ad;
+
         if(!this.validateForm(true)){
             message.error("Corrige los errores del formulario");
             return;
         }
-        this.setState({validated:true});
-        this.props.formActions.uploadFotos(this.state.ad.fotos);
+        //comenzamos la carga de imagenes
+        message.warning("cargando, espera un momento...");
+        message.warning("Ya estamos terminando, espera un momento...");
+        this.props.formActions.uploadFotos(this.state.files)
+            .then(links=>{
+                //console.log(links);
+                ad.fotos = links;
+                this.setState({ad});
+                this.props.formActions.saveAd(ad)
+                    .then(r=>{
+                        message.success("¡Tu anuncio se ha publicado con éxito!");
+                        this.props.history.push("/perfil");
+                    })
+                    .catch(e=>console.log(e));
+            });
      // alert("guardando");
-       message.warning("cargando, espera un momento...");
-       message.warning("Ya estamos terminando, espera un momento...");
+
 
     };
 
     uploadFotos = (fotos) => {
         uploadSeveralFiles(fotos)
             .then(r=>{
-                console.log(r);
+                //console.log(r);
             });
     };
 
     render(){
-        const {validated, success, errors, ad, marcas, files, modelos} = this.state;
-        console.log("Fotos subidas:  ",ad);
+        const {validated, success, errors, ad, marcas, modelos} = this.state;
+        //console.log("Fotos subidas:  ",ad);
         return(
 
             <div>

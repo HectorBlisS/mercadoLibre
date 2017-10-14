@@ -75,7 +75,7 @@ export const VehiculoFormDisplay = ({validateForm, success, errors, ad, marcas, 
                         onChange={setModelo}
                         componentClass="select" placeholder="Selecciona el modelo">
                         <option disabled >Selecciona el modelo</option>
-                        <option default disabled value={ad.modelo}>{ad.modelo}</option>
+                        <option default value={ad.modelo}>{ad.modelo}</option>
                         {modelos.map((m,index)=><option key={index} value={m.value}>{m.title}</option>)}
                     </FormControl>
                     {errors.modelo && <HelpBlock>{errors.modelo}</HelpBlock>}

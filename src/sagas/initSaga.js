@@ -11,17 +11,17 @@ import {
 
 
 function* fetchUser(action){
-    console.log(action);
+    //console.log(action);
     const user = yield firebaseMethods.fetchUserInfo(action.user);
-    console.log(user);
+    //console.log(user);
     localStorage.setItem('user', JSON.stringify(user));
     yield put({type:GET_USER_INFO_SUCCESS, user});
 }
 
 function* fetchAds(action){
-    console.log("ads llamado");
+    //console.log("ads llamado");
     const ads = yield firebaseMethods.fetchUserAds(action.user);
-    console.log("ads: ",ads);
+    //console.log("ads: ",ads);
     yield put({type:GET_USER_ADS_SUCCESS, items:ads});
 }
 

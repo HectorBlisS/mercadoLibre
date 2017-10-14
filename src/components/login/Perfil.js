@@ -197,7 +197,7 @@ const styles = {
 
 function mapStateToProps(state, ownProps){
     return {
-        user: state.user
+        
     }
 }
 

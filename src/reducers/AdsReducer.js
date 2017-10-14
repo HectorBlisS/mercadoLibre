@@ -4,6 +4,8 @@ export default function AdsReducer(state = [], action) {
             return action.anuncios;
         case "CREATE_ADD":
             return action.ad;
+        case "SAVE_AD_SUCCESS":
+            return [action.ad, ...state];
         default:
             return state;
     }

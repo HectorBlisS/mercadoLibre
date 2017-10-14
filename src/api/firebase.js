@@ -63,11 +63,11 @@ export function fetchUserInfo(user){
     const userRef = db.collection("usuarios").doc(user.uid);
     return userRef.get()
         .then(doc=>{
-            console.log(doc);
+            //console.log(doc);
             if(doc.exists){
                 return doc.data();
             } else{
-                console.log('hago algo?');
+                //console.log('hago algo?');
                 const usuario = {
                     displayName:user.displayName,
                     uid:user.uid,
@@ -113,7 +113,7 @@ export function fetchUserAds(user){
                 item["key"] = k;
                 lista.push(item);
             }
-            console.log(lista);
+            //console.log(lista);
             return lista;
         })
         .catch(e=>console.log(e));
@@ -125,7 +125,7 @@ export function fetchMarcas(){
     return marcasRef.once("value")
         .then(s=>{
             const obj = s.val();
-            console.log("marcas: ", obj);
+            //console.log("marcas: ", obj);
             //devolvemos un array:
             let array = [];
             for(let k in obj){
@@ -139,15 +139,51 @@ export function fetchMarcas(){
         .catch(e=>console.log(e));
 }
 
+// set it up
+firebase.storage().ref().constructor.prototype.putFiles = function(files) {
+    var ref = this;
+    return Promise.all(files.map(function(file) {
+        return ref.child(file.name).put(file);
+    }));
+};
+
+
 export function uploadSeveralFiles(files){
-    let links = [];
+    //let links = [];
     const storage = firebase.storage().ref("adFotos");
-    links = files.map(f=>{
-        return storage.child(f.file.name).put(f.file)
-            .then(r=>{
-                return {url:r.downloadURL, name:f.file.name};
+   return storage.putFiles(files)
+       .then(r=>{
+           //console.log(r);
+           return r;
+       })
+       .catch(e=>console.log(e));
+
+
+}
+
+export function saveAd(ad){
+    let updates = {};
+    if(ad.key){
+        updates["anuncios/" + ad.key] = ad;
+        return firebase.database().ref().update(updates)
+            .then(s=>{
+                console.log(s);
+                let added = ad;
+                added["key"] = s.key;
+                return added;
             })
-    });
-    console.log(links);
-    return links;
+            .catch(e=>console.log(e));
+    } else{
+        const user = JSON.parse(localStorage.getItem("user"));
+        ad["user"] = user.uid;
+        return firebase.database().ref("anuncios")
+            .push(ad)
+            .then(s=>{
+                let added = ad;
+                added["key"] = s.key;
+                return added;
+            })
+            .catch(e=>console.log(e));
+    }
+
 }
